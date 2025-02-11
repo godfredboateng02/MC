@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import CardView from '../components/CardView';
 
 export default function Profile() {
     const navigation = useNavigation();
@@ -9,7 +10,7 @@ export default function Profile() {
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backText}>←</Text>
             </TouchableOpacity>
-            <Text>Profile</Text>
+            <CardView />
         </View>
     );
 }

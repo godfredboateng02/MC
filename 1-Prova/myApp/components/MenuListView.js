@@ -5,7 +5,6 @@ import MenuElement from './MenuElement';
 export default function MenuListView({menu, onCardPress}){
     return(
         <View style={styles.container}>
-            <Text style={styles.sectionTitle}>I nostri menu</Text>
             <FlatList 
                 data = {menu}
                 renderItem = {({item}) => <TouchableOpacity onPress = {()=>onCardPress(item)}><MenuElement menu={item} /></TouchableOpacity>}
@@ -19,12 +18,12 @@ export default function MenuListView({menu, onCardPress}){
 
 const styles = StyleSheet.create({
     container:{
-        marginTop: 20
+        //nulla per ora
+        
     },
     sectionTitle:{
         fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 10,
-        marginLeft: -200,
     }
 });

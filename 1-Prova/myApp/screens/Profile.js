@@ -77,14 +77,7 @@ export default function Profile() {
     })*/
     //----> DA USARE QUANDO TUTTO FUNZIONA
 
-    /*useEffect(()=>{
-        gestioneAccount.getUserData().then((datiUtente)=>{
-            setDatiUtente(datiUtente)
-        }).catch((error)=>{
-            console.log("errore caricamento dei dati dell'utente",errore)
-            //gestisci con una schermata di reload
-        })
-    },[])*/
+    
     
     //simulazione della useEffect e chiamata per dati utente e carta
     
@@ -104,18 +97,48 @@ export default function Profile() {
 
 
     
-    //Simulazione della funizione per prendere i dati
+    //Simulazione della funzione per prendere i dati dell'ultimo menu
     lastOrderMenu = () => {
         return lastOrder
     }
 
     //---------------------------------------------------------------------------------------------------
 
-    useEffect(()=>{
+
+    //---------------------- SIMULAZIONE CHIAMATA PER DATA E ORA ULTIMO ORDINE -------------------------------
+    const [lastOrderMenuTime, setLastOrderMenuTime] = useState()
+
+    //Simulazione dei dati ricevuti dalla rete
+    const dataTempo = {
+        risposta: "Lunedì 25 maggio 2024, 16:30" 
+    }
+
+    //Simulazione della funzione per prendere i dati dell'orario dell'ultimo ordine
+    const lastOrderTime = () => {
+        return dataTempo
+    }
+
+    //---------------------------------------------------------------------------------------------------
+
+    /*useEffect(()=>{
         let d = getUserData()
         setDatiUtente(d)
         let m = lastOrderMenu()
-        setLastMenu(m) //se metti questo a null vedi cosa fa
+        setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
+        let t = lastOrderTime()
+        setLastOrderMenuTime(t)
+    },[])*/
+
+    useEffect(()=>{
+        gestioneAccount.getUserData().then((datiUtente)=>{
+            setDatiUtente(datiUtente)
+            let m = lastOrderMenu()
+            setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
+            console.log(t)
+        }).catch((error)=>{
+            console.log("errore caricamento dei dati dell'utente",error)
+            //gestisci con una schermata di reload
+        })
     },[])
 
     return (
@@ -134,6 +157,10 @@ export default function Profile() {
                 {/*<Text style={styles.firstlastName}>{datiUtente.Cognome} {datiUtente.Nome}</Text>*/}
                 {/*I dati della carta possono essere NULL -> Altra soluzione*/}
                 {datiUtente?.Cognome && datiUtente?.Nome && (<Text style={styles.firstlastName}>{datiUtente.Cognome} {datiUtente.Nome}</Text>)}
+
+                <TouchableOpacity onPress={() => navigate("EditProfileData",{datiUtente: datiUtente})}>
+                    <Text style={styles.editProfile}>Modifica profilo</Text>
+                </TouchableOpacity> 
             </View>
         
             
@@ -149,9 +176,14 @@ export default function Profile() {
             <View style={styles.titleRow}>
                 <Text style={styles.title}>Ordine Recente</Text>
             </View>
+            
+
+            {lastOrderMenuTime?.risposta && (<Text style={styles.ora}>{lastOrderMenuTime.risposta}</Text>)}
+
             <View style={styles.lastOrderContainer}>
                 <LastOrderView lastMenu={lastMenu}/>
             </View>
+
         </View>
     );
 }
@@ -221,5 +253,17 @@ const styles = StyleSheet.create({
     },
     lastOrderContainer: {
         alignItems: 'center'
+    },
+    ora: {
+        marginLeft: 16,
+        marginTop: -5,
+        fontWeight: 'light',
+        fontSize: 15,
+        color: '#878787'
+
+    },
+    editProfile: {
+        color: "#FFF",
+        fontWeight: 'semibold',
     }
 });

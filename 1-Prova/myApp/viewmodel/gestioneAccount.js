@@ -1,36 +1,49 @@
 import CommunicationController from "../model/CommunicationController";
+import storage from "../model/storage";
+import formattazione from "./formattazione";
 
 export default class gestioneAccount {
 
     static async getUserData(){
-        let risposta = await CommunicationController.getUserInfo();
+        let risposta = undefined
+        try{
+            risposta = await CommunicationController.getUserInfo();
+        }catch(error){
+            console.log("errore da getUser:",error)
+        }
+        
         let userData = {};
         userData.Nome = risposta.firstName;
         userData.Cognome = risposta.lastName;
+        //console.log("getUserData",userData,"risposta",risposta)
         if (risposta.cardFullName == null) {
             userData.Carta = null;
         } else {
+            userData.Carta = {}
             userData.Carta.Titolare = risposta.cardFullName;
             userData.Carta.Numero = risposta.cardNumber.slice(-4);
             userData.Carta.Mese = risposta.cardExpireMonth;
             userData.Carta.Anno = risposta.cardExpireYear;
         }
-
+        //console.log("userData",userData.Carta)
         return userData;
     }
 
     static async updateUserCard(card){
+        //console.log("updateUser",card)
         let identity = await this.getUserData();
+        //console.log("userData",identity)
         let bodyParams = {
-            cardFullName: card.Titolare,
-            cardNumber: card.Numero,
-            cardExpireMonth: card.Mese,
-            cardExpireYear: card.Anno,
-            cardCVV: card.Cvv,
+            cardFullName: card.Carta.Titolare,
+            cardNumber: card.Carta.Numero,
+            cardExpireMonth: card.Carta.Mese,
+            cardExpireYear: card.Carta.Anno,
+            cardCVV: card.Carta.Cvv,
             firstName: identity.Nome,
-            lastName: identity.Cognome,
+            lastName: identity.Cognome
         }
-        CommunicationController.putUserInfo(bodyParams);
+        //console.log("updateUser2",bodyParams)
+        await CommunicationController.putUserInfo(bodyParams);
     }
 
     static async updateUserName(identity){
@@ -46,5 +59,14 @@ export default class gestioneAccount {
         }
         CommunicationController.putUserInfo(bodyParams);
     }
+
+
+
+    static async lastOrderTime(){
+        let oid = await storage.getOid();
+        let risposta = await CommunicationController.getOrderStatus(oid);
+        return formattazione.extractTime(risposta.creationTimestamp);
+    }
+
 
 }

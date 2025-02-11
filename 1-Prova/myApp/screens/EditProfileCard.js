@@ -2,6 +2,8 @@ import {Text, View, StyleSheet, TouchableOpacity, TextInput, Button} from 'react
 import {useState , useEffect} from 'react'
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import gestioneAccount from '../viewmodel/gestioneAccount';
+import { navigate } from '../NavigationService';
 
 export default function EditProfileCard(){
 
@@ -26,6 +28,16 @@ export default function EditProfileCard(){
         setCardExpireYear(datiCarta.cardExpireYear)
         setCardCVV(datiCarta.cardCVV)
     },[])
+
+    const onEdit = (card) =>{
+        console.log("onEdit",card)
+        gestioneAccount.updateUserCard(card).then(()=>{
+            console.log("aggiornato dati carta")
+            navigate("Profile")
+        }).catch((error)=>{
+            console.log("errore aggiornamento dati",error)
+        })
+    }
 
     /*
     TO-DO: (VIEW) posso usarla solamente dopo aver effettuato la chiamata di rete alla viewModel, per modificare i dati della carta
@@ -113,10 +125,11 @@ export default function EditProfileCard(){
                 </View>
 
                 {/* BOTTONE CONFERMA */}
-                <TouchableOpacity style={styles.confirmButton} onPress={() => console.log("Modifica confermata")}>
+                <TouchableOpacity style={styles.confirmButton} onPress={() => onEdit({Carta: {Titolare: cardFullName, Numero: cardNumber, Mese: cardExpireMonth, Anno: cardExpireYear, Cvv: cardCVV}})}>
                     <Text style={styles.confirmText}>Conferma le modifiche</Text>
                 </TouchableOpacity>
             </View>
+
         </View>
     );
 }

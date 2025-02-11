@@ -32,7 +32,7 @@ export default function LastOrderView({lastMenu}){
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{lastMenu.Nome}</Text>
                 <Text style={styles.description}>{lastMenu.Descrizione}</Text>
-                <Text style={styles.price}>€ {lastMenu.Prezzo}</Text>
+                <Text style={styles.price}>{lastMenu.Prezzo}</Text>
             </View>
         </View>
     );
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         flex: 1, // Occupa tutto lo spazio disponibile
-        marginLeft: 15, // Spazio tra immagine e testo
+        marginLeft: 10, // Spazio tra immagine e testo
     },
     title: {
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: 16,
+        fontWeight: "600",
         color: "#555555",
     },
     description: {

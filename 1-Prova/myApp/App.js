@@ -7,6 +7,8 @@ import ProfileScreen from "./screens/Profile";
 import MenuDetailScreen from "./screens/MenuDetail";
 import DeliveryScreen from "./screens/Delivery";
 import EditProfileCardScreen from "./screens/EditProfileCard";
+import EditProfileDataScreen from "./screens/EditProfileData";
+import Prova from "./screens/Prova";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +21,8 @@ export default function App() {
         <Stack.Screen name="Delivery" component={DeliveryScreen} />
         <Stack.Screen name="MenuDetail" component={MenuDetailScreen} />
         <Stack.Screen name="EditProfileCard" component={EditProfileCardScreen} />
+        <Stack.Screen name="EditProfileData" component={EditProfileDataScreen} />
+        <Stack.Screen name="Prova" component={Prova} />
       </Stack.Navigator>
     </NavigationContainer>
   );

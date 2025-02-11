@@ -119,7 +119,7 @@ import storage from "./storage";
 import location from "./location";
 
 export default class CommunicationController {
-    static BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425/";    
+    static BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425/";
   
     static async genericRequest(endpoint, verb, queryParams, bodyParams) {
       console.log("genericRequest called");
@@ -181,17 +181,27 @@ export default class CommunicationController {
     }
   
     static async getUserInfo(){
-        let endpoint = "user/" + await storage.getUid();
-        let queryParams = { sid: await storage.getSid() };
-        //console.log("getUserInfo called with endpoint: ",endpoint, " and queryParams: ", queryParams);
-        return await this.genericGetRequest(endpoint, queryParams);
+      let uid =  await storage.getUid()
+      let sid =  await storage.getSid()
+      //rconsole.log("getUserInfo:",sid,uid)
+      let endpoint = "user/"+uid
+      let queryParams = {sid: sid}
+      //console.log("getUserInfo called with endpoint: ",endpoint, " and queryParams: ", queryParams);
+      return await this.genericGetRequest(endpoint, queryParams);
     }
 
+    
+
     static async putUserInfo(bodyParams){
-        let endpoint = "user/" + await storage.getUid();
-        let queryParams = {sid: await storage.getSid(), firstName: bodyParams.firstName, lastName: bodyParams.lastName, cardFullName: bodyParams.cardFullName, cardNumber: bodyParams.cardNumber, cardExpireMonth: bodyParams.cardExpireMonth, cardExpireYear: bodyParams.cardExpireYear, cardCVV: bodyParams.cardCVV, orderStatus: bodyParams.orderStatus};
+        let uid =  await storage.getUid()
+        let sid = await storage.getSid()
+        let endpoint = "user/" + uid
+        
+        //let queryParams = {sid: await storage.getSid(), firstName: bodyParams.firstName, lastName: bodyParams.lastName, cardFullName: bodyParams.cardFullName, cardNumber: bodyParams.cardNumber, cardExpireMonth: bodyParams.cardExpireMonth, cardExpireYear: bodyParams.cardExpireYear, cardCVV: bodyParams.cardCVV, orderStatus: bodyParams.orderStatus};
         //console.log("putUserInfo called with endpoint: ",endpoint, " and queryParams: ", queryParams);
-        return await this.genericRequest(endpoint, "PUT", queryParams, bodyParams);
+        bodyParams = {...bodyParams, sid: "AjIIWbICEQTRglNw2jBoHLBbgcwptYg13LNxQcBteL3DKfFyfyo2BNxJx8u2vTUD"}
+        //console.log("bodyparams",bodyParams)
+        return await this.genericRequest(endpoint, "PUT", {}, bodyParams);
     }
 
     static async getMenus(){

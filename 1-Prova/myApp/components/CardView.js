@@ -3,33 +3,37 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 export default function CardView({dati}){
 
     if (!dati || !dati.Carta) {
-        return <Text>Caricamento dati...</Text>; // Mostra un placeholder mentre i dati si caricano
+        return (
+            <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>Nessuna Carta Inserita</Text>
+            </View>
+        );
+    }else{
+        return (
+            <TouchableOpacity style={styles.cardContainer} onPress={() => console.log("Carta cliccata")}>
+                <Text style={styles.cardBrand}>Visa</Text>
+    
+                <View style={styles.cardRow}>
+                    <View>
+                        <Text style={styles.label}>Card number</Text>
+                        <Text style={styles.cardNumber}>**** **** **** {dati.Carta.Numero}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.label}>CVV</Text>
+                        <Text style={styles.cvv}>***</Text>
+                    </View>
+                </View>
+    
+                <View style={styles.cardRow}>
+                    <View>
+                        <Text style={styles.label}>Expire Date</Text>
+                        <Text style={styles.expireDate}>{dati.Carta.Mese}/{dati.Carta.Anno}</Text>
+                    </View>
+                    <Text style={styles.cardHolder}>{dati.Carta.Titolare}</Text>
+                </View>
+            </TouchableOpacity>
+        );
     }
-
-    return (
-        <TouchableOpacity style={styles.cardContainer} onPress={() => console.log("Carta cliccata")}>
-            <Text style={styles.cardBrand}>Visa</Text>
-
-            <View style={styles.cardRow}>
-                <View>
-                    <Text style={styles.label}>Card number</Text>
-                    <Text style={styles.cardNumber}>**** **** **** {dati.Carta.Numero}</Text>
-                </View>
-                <View>
-                    <Text style={styles.label}>CVV</Text>
-                    <Text style={styles.cvv}>***</Text>
-                </View>
-            </View>
-
-            <View style={styles.cardRow}>
-                <View>
-                    <Text style={styles.label}>Expire Date</Text>
-                    <Text style={styles.expireDate}>{dati.Carta.Mese}/{dati.Carta.Anno}</Text>
-                </View>
-                <Text style={styles.cardHolder}>{dati.Carta.Titolare}</Text>
-            </View>
-        </TouchableOpacity>
-    );
 }
 
 // STILI PER LA CARTA DI CREDITO
@@ -82,5 +86,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         color: "#fff",
-    }
+    },
+    emptyContainer: {
+        padding: 20,
+        alignItems: "center",
+    },
+    emptyText: {
+        fontSize: 16,
+        color: "#666",
+    },
 });

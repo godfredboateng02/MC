@@ -5,13 +5,22 @@ import { useEffect, useState } from 'react';
 import { fetchMenu } from '../viewmodel/MenuViewModel';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Homepage(){
+export default function HomeScreen(){
 
     const navigation = useNavigation();
 
     //questa è una funzione asincrona e quindi deve essere gestita in un altro modo
     const [cardPressed, setCardPressed] = useState()
     const [menuList, setMenuList] = useState();
+
+    /*
+    nomeChiamata:
+    DALLA VIEWMODEL ->
+    mi serve una chiamata di rete che mi restituisca tutti i menu con
+        - Nome del piatto
+        - DescrizioneCorta del piatto
+        - 
+    */
 
     /*useEffect(() => {
         CommunicationController.getMenus().then((menuList1) => {

@@ -1,26 +1,122 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import CardView from '../components/CardView';
 import LastOrderView from '../components/LastOrderView';
+import { navigate } from '../NavigationService';
+import gestioneAccount from '../viewmodel/gestioneAccount';
 
 export default function Profile() {
     const navigation = useNavigation();
 
     //TO-DO: questi dati devono essere ottenuti tramite una chiamata getUser alla viewmodel e poi passati alle componenti come props
+    //simula l'oggetto ricevuto dalla chiamata
     const Dati = {
-        firstName: 'Mario',
-        lastName: 'Rossi',
-        cardFullName: 'Mario Rossi',
-        cardNumber: '1032342554555453',
-        cardExpireMonth: '10',
-        cardExpireYear: '2024',
-        cardCVV: '123',
-        lastOid: 0
+        Nome: 'Mario',
+        Cognome: 'Rossi',
+        Carta: {
+            Numero: "6789",
+            Mese: "12",
+            Anno: "2024",
+            Titolare: "Mario Rossi"
+        }
+
+    }
+    //simula la chiamata
+    getUserData = () => {
+        return Dati
     }
 
-    //TO-DO: questo dato deve essere ottenuto tramite una chiamata alla vie
+    /*
+    N.B. specifica solamente per questa pagina non per altre
+    NomeChiamata: getUserData()
+    DALLA VIEW MODEL ASINCRONA -> 
+    Restituito un oggetto per la carta con
+        - Nome
+        - Cognome
+        - Carta{
+            Numero
+            Mese
+            Anno
+            Titolare
+        }
+    */
 
-    //TO-DO: manca il costrutto di selezione che se vede che la carta non è caricata scrive nessuna carta
+    /*
+    NomeChiamata: LastOrderMenu()
+    DALLA VIEW MODEL ASINCRONA
+    restituisce un oggetto per lastOrder
+        - Nome del piatto
+        - Descrizione breve
+        - Prezzo
+        - Immagine
+
+    se l'ultimo ordine esisteva "NOT_AVAILABLE" -> "menu non disponibile"
+    se l'ultimo non esiste "NULL" -> "nessun ordine recente"
+    */
+
+    /*
+    NomeChiamata: LastOrderTime()
+    DALLA VIEWMODEL ASINCRONA
+    restituisce un oggetto con ora e data, 
+        - Data formattato in giorno n°giorno mese
+        - Ora formato HH/MM
+    */
+
+    //TO-DO: manca il costrutto di selezione che se vede che la carta non è caricata scrive nessuna carta inserita
+    /*
+        L'oggetto carta sarà null e quindi terrò la schermata vuota
+    */
+
+    const [datiUtente, setDatiUtente] = useState(null)
+
+    /*gestioneAccount.updateUserName({Cognome: "Rossi", Nome: "Matteo"}).then(()=>{
+        console.log("inserimento dati")
+    }).catch((error)=>{
+        console.log("errore",error)
+    })*/
+    //----> DA USARE QUANDO TUTTO FUNZIONA
+
+    /*useEffect(()=>{
+        gestioneAccount.getUserData().then((datiUtente)=>{
+            setDatiUtente(datiUtente)
+        }).catch((error)=>{
+            console.log("errore caricamento dei dati dell'utente",errore)
+            //gestisci con una schermata di reload
+        })
+    },[])*/
+    
+    //simulazione della useEffect e chiamata per dati utente e carta
+    
+
+
+
+    //---------------------- SIMULAZIONE CHIAMATA PER DATI ULTIMO ORDINE -------------------------------
+    const [lastMenu, setLastMenu] = useState()
+
+    //Simulazione dei dati ricevuti dalla rete
+    const lastOrder = {
+        Nome: 'Pasta al Pesto',
+        Descrizione: "Un piatto molto esotico da terre lontane genovesi",
+        Prezzo: '12,99€',
+        Immagine: "../assets/piatto.png"
+    }
+
+
+    
+    //Simulazione della funizione per prendere i dati
+    lastOrderMenu = () => {
+        return lastOrder
+    }
+
+    //---------------------------------------------------------------------------------------------------
+
+    useEffect(()=>{
+        let d = getUserData()
+        setDatiUtente(d)
+        let m = lastOrderMenu()
+        setLastMenu(m) //se metti questo a null vedi cosa fa
+    },[])
 
     return (
 
@@ -35,16 +131,26 @@ export default function Profile() {
                     style={styles.profileImage}
                     resizeMode="contain"
                 />
-                <Text style={styles.firstlastName}>{Dati.lastName} {Dati.firstName}</Text>
+                {/*<Text style={styles.firstlastName}>{datiUtente.Cognome} {datiUtente.Nome}</Text>*/}
+                {/*I dati della carta possono essere NULL -> Altra soluzione*/}
+                {datiUtente?.Cognome && datiUtente?.Nome && (<Text style={styles.firstlastName}>{datiUtente.Cognome} {datiUtente.Nome}</Text>)}
             </View>
         
             
-            <Text style={styles.title}>La mia carta</Text>
-            <CardView dati={Dati}/>
+            <View style={styles.titleRow}>
+                <Text style={styles.title}>La mia carta</Text>
+                <TouchableOpacity onPress={() => navigate('EditProfileCard', {datiCarta: datiUtente})}>
+                    <Text style={styles.editText}>Modifica</Text>
+                </TouchableOpacity>
+            </View>
+            <CardView dati={datiUtente}/>
 
-            <Text style={styles.title}>Ordine Recente</Text>
+
+            <View style={styles.titleRow}>
+                <Text style={styles.title}>Ordine Recente</Text>
+            </View>
             <View style={styles.lastOrderContainer}>
-                <LastOrderView lastOid={Dati.lastOid}/>
+                <LastOrderView lastMenu={lastMenu}/>
             </View>
         </View>
     );
@@ -91,13 +197,27 @@ const styles = StyleSheet.create({
         color: "#fff",
         marginTop: 30,
     },
+    titleRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        marginTop: 30,
+        marginBottom: 10,
+
+    },
     title: {
         fontSize: 20,
         fontWeight: '700',
-        marginLeft: 16,
-        marginTop: 30,
-        marginBottom: 10,
+        //marginLeft: 16,
+        //marginTop: 30,
+        //marginBottom: 10,
         color: '#FF8C00'
+    },
+    editText: {
+        fontSize: 16,
+        color: "#007AFF",
+        fontWeight: "500",
     },
     lastOrderContainer: {
         alignItems: 'center'

@@ -2,10 +2,9 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 
 export default function CardView({dati}){
 
-    const maskCardNumber = (cardNumber) => {
-        console.log()
-        return cardNumber.replace(/\d(?=\d{4})/g, "*"); // Sostituisce tutti i numeri tranne gli ultimi 4
-    };
+    if (!dati || !dati.Carta) {
+        return <Text>Caricamento dati...</Text>; // Mostra un placeholder mentre i dati si caricano
+    }
 
     return (
         <TouchableOpacity style={styles.cardContainer} onPress={() => console.log("Carta cliccata")}>
@@ -14,20 +13,20 @@ export default function CardView({dati}){
             <View style={styles.cardRow}>
                 <View>
                     <Text style={styles.label}>Card number</Text>
-                    <Text style={styles.cardNumber}>{maskCardNumber(dati.cardNumber)}</Text>
+                    <Text style={styles.cardNumber}>**** **** **** {dati.Carta.Numero}</Text>
                 </View>
                 <View>
                     <Text style={styles.label}>CVV</Text>
-                    <Text style={styles.cvv}>{dati.cardCVV}</Text>
+                    <Text style={styles.cvv}>***</Text>
                 </View>
             </View>
 
             <View style={styles.cardRow}>
                 <View>
                     <Text style={styles.label}>Expire Date</Text>
-                    <Text style={styles.expireDate}>{dati.cardExpireMonth}/{dati.cardExpireYear}</Text>
+                    <Text style={styles.expireDate}>{dati.Carta.Mese}/{dati.Carta.Anno}</Text>
                 </View>
-                <Text style={styles.cardHolder}>{dati.cardFullName}</Text>
+                <Text style={styles.cardHolder}>{dati.Carta.Titolare}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
-        elevation: 5,
+        elevation: 5
     },
     cardBrand: {
         fontSize: 25,
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     label: {
-        color: "#B0BEC5",
+        color: "#fff",
         fontSize: 14,
     },
     cardNumber: {

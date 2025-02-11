@@ -1,17 +1,9 @@
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 
-export default function CardView(){
-
-    //TO-DO i dati devono essere passati tramite props
-    const DatiCarta = {
-        cardFullName: 'Mario Rossi',
-        cardNumber: '1032 3425 5455 5453', //mi servirebbe non in chiaro ma con gli asterischi per i numeri dal 1 al 14 
-        cardExpireMonth: '10',
-        cardExpireYear: '2024',
-        cardCVV: '***'
-    }
+export default function CardView({dati}){
 
     const maskCardNumber = (cardNumber) => {
+        console.log()
         return cardNumber.replace(/\d(?=\d{4})/g, "*"); // Sostituisce tutti i numeri tranne gli ultimi 4
     };
 
@@ -22,20 +14,20 @@ export default function CardView(){
             <View style={styles.cardRow}>
                 <View>
                     <Text style={styles.label}>Card number</Text>
-                    <Text style={styles.cardNumber}>{DatiCarta.cardNumber}</Text>
+                    <Text style={styles.cardNumber}>{maskCardNumber(dati.cardNumber)}</Text>
                 </View>
                 <View>
                     <Text style={styles.label}>CVV</Text>
-                    <Text style={styles.cvv}>{DatiCarta.cardCVV}</Text>
+                    <Text style={styles.cvv}>{dati.cardCVV}</Text>
                 </View>
             </View>
 
             <View style={styles.cardRow}>
                 <View>
                     <Text style={styles.label}>Expire Date</Text>
-                    <Text style={styles.expireDate}>{DatiCarta.cardExpireMonth}/{DatiCarta.cardExpireYear}</Text>
+                    <Text style={styles.expireDate}>{dati.cardExpireMonth}/{dati.cardExpireYear}</Text>
                 </View>
-                <Text style={styles.cardHolder}>{DatiCarta.cardFullName}</Text>
+                <Text style={styles.cardHolder}>{dati.cardFullName}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -44,7 +36,7 @@ export default function CardView(){
 // STILI PER LA CARTA DI CREDITO
 const styles = StyleSheet.create({
     cardContainer: {
-        backgroundColor: "#1E88E5", // Blu simile alla carta in foto
+        backgroundColor: "#1E88E5", 
         padding: 20,
         borderRadius: 15,
         width: 350,
@@ -56,7 +48,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     cardBrand: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: "bold",
         color: "#fff",
         marginBottom: 10,

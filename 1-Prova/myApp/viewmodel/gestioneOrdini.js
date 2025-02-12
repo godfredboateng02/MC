@@ -14,12 +14,14 @@ export default class gestioneOrdini{
     }
 
     static async lastOrderMenu(){
-        let mid = storage.getMid()
+        let mid = await storage.getMid()
+        console.log("mid",mid)
         let menu = await CommunicationController.getMenuDetails(mid)
         let risposta = {}
         risposta.Nome = menu.name
         risposta.Prezzo = menu.price
         risposta.Descrizione = menu.shortDescription
         risposta.Immagine = await storage.getImage(mid, menu.imageVersion)
+        return risposta
     }
 }

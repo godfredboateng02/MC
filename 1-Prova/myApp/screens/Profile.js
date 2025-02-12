@@ -109,14 +109,15 @@ export default function Profile() {
     const [lastOrderMenuTime, setLastOrderMenuTime] = useState()
 
     //Simulazione dei dati ricevuti dalla rete
-    const dataTempo = {
+    /*const dataTempo = {
         risposta: "Lunedì 25 maggio 2024, 16:30" 
     }
 
     //Simulazione della funzione per prendere i dati dell'orario dell'ultimo ordine
     const lastOrderTime = () => {
         return dataTempo
-    }
+    }*/
+
 
     //---------------------------------------------------------------------------------------------------
 
@@ -132,12 +133,20 @@ export default function Profile() {
     useEffect(()=>{
         gestioneAccount.getUserData().then((datiUtente)=>{
             setDatiUtente(datiUtente)
-            let m = lastOrderMenu()
-            setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
+            //let m = lastOrderMenu()
+            //setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
+        
         }).catch((error)=>{
             console.log("errore caricamento dei dati dell'utente",error)
             //gestisci con una schermata di reload
         })
+        
+        gestioneAccount.lastOrderTime().then((tempo)=>{
+            setLastOrderMenuTime(tempo)
+        }).catch((error)=>{
+            console.log("errore",error)
+        })
+        
     },[])
 
     return (

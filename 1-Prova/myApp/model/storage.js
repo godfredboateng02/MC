@@ -72,11 +72,11 @@ export default class Storage {
     static async getImage(mid, version) {
         let image = await DB.getImage(mid, version);
         if (image == "NOT_FOUND") {
-            image = await this.immagine(mid);
+            image = await CommunicationController.getMenuImage(mid);
             console.log("presa da rete");
             await DB.addImage(mid, version, image);
         } else if (image == "VERSION_MISMATCH") {
-            image = await this.immagine(mid);
+            image = await CommunicationController.getMenuImage(mid);
             console.log("presa da rete");
             await DB.updateImage(mid, version, image);
         }

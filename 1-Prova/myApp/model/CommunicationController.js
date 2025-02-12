@@ -220,7 +220,7 @@ export default class CommunicationController {
 
     static async getMenuDetails(mid){
       let endpoint = "menu/"+mid
-      let queryParams = {sid: await storage.getSid(), lat: location.getLat(), lng: location.getLng() , mid: this.mid }
+      let queryParams = {sid: await storage.getSid(), lat: await location.getLat(), lng: await location.getLng() , mid: this.mid }
       //console.log("getMenuDetails called with endpoint: ",endpoint," and queryParams: ",queryParams);
       return await this.genericGetRequest(endpoint,queryParams)
     }

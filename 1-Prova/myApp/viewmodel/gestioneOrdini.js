@@ -1,6 +1,7 @@
 
 import CommunicationController from "../model/CommunicationController";
 import storage from "../model/storage";
+import formattazione from "./formattazione";
 
 
 export default class gestioneOrdini{
@@ -9,6 +10,7 @@ export default class gestioneOrdini{
     static async effettuaOrdine(mid){
         console.log("Acquisto effettuato");
         let ordine = await CommunicationController.postOrder(mid)
+        await storage.setRistorante({lat: ordine.curretPosition.lat, lng: ordine.curretPosition.lng})
         await storage.setOid(ordine.oid)
         await storage.setMid(mid)
     }
@@ -23,5 +25,22 @@ export default class gestioneOrdini{
         risposta.Descrizione = menu.shortDescription
         risposta.Immagine = await storage.getImage(mid, menu.imageVersion)
         return risposta
+    }
+
+    static async orderStatus(){
+        let oid = await storage.getOid()
+        let raw = await CommunicationController.getOrderStatus(oid)
+        let risposta = {};
+        risposta.Stato = raw.status;
+        risposta.Partenza = await storage.getRistorante();
+        risposta.Destinazione = raw.deliveryLocation;
+        risposta.Drone = raw.curretPosition;
+        if (raw.status === "ON_DELIVERY"){
+            risposta.Tempo = formattazione.tempoRimanente(raw.expectedDeliveryTimestamp);
+        }else{
+            risposta.Tempo = null;
+            risposta.Consegnato = formattazione.extractTime(raw.deliveryTimestamp);
+        }
+        return risposta;
     }
 }

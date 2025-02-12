@@ -7,6 +7,7 @@ export default class Storage {
     static uid = null;
     static oid = null;
     static mid = null;
+    static ristorante = null;
 
     static async getSid() {
         if (this.sid != null) {
@@ -67,6 +68,19 @@ export default class Storage {
     static async setMid(mid) {
         this.mid = mid;
         await AsyncStorage.setItem('mid', JSON.stringify(mid));
+    }
+
+    static async getRistorante() {
+        if (this.ristorante == null) {
+            let ristorante = await AsyncStorage.getItem('ristorante');
+            this.ristorante = ristorante ? JSON.parse(ristorante) : null;
+        }
+        return this.ristorante;
+    }
+
+    static async setRistorante(ristorante) {
+        this.ristorante = ristorante;
+        await AsyncStorage.setItem('ristorante', JSON.stringify(ristorante));
     }
 
     static async getImage(mid, version) {

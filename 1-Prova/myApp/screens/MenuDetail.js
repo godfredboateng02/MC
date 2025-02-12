@@ -1,74 +1,154 @@
-import { Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import gestioneMenu from '../viewmodel/gestioneMenu';
 
-export default function MenuDetail(){
+export default function MenuDetail() {
     const navigation = useNavigation();
-
-    /**
-    nomeChiamata:UserData()
-    
-    TO-DO: userò la stessa chiamata di rete della getUser per vedere se i dati della carta sono
-    stati inseriti e che quindi posso cliccare il pulsante acquista, altrimenti il pulsante mi
-    rimanda alla schermata di inserimento dei dati della carta
-    */
-
-    /*
-    nomeChiamata: DettaglioMenu(mid)
-
-    TO-DO: mi serve la chiamata di rete al dettaglio del menu selezionato che mi restituisce
-    un oggetto con:
-        - Nome:
-        - DescrizioneLunga:
-        - Prezzo:
-        - TempoDiConsegna (*vediamo dopo)
-        - Immagine
-        - Ingredienti (*facoltativo)
-    */
-
     const route = useRoute();
     const { menuId } = route.params; // Recupera il menuId passato
+    const [menuDetail, setMenuDetail] = useState(null);
 
-    //TO-DO: (viewmodel) i dettagli del menu li ricevo tramite una chiamata di rete dove indico la MID]
-    const MenuDetail = {
-        mid: 0,
-        name: "Pizza Margherita",
-        price: 5,
-        location: {
-            "lat": 45.4642,
-            "lng": 9.19
-        },
-        imageVersion: 0,
-        shortDescription: "Pizza con pomodoro, mozzarella e basilico.",
-        deliveryTime: 30,
-        longDescription: "Pizza con pomodoro, mozzarella e basilico, cotta in forno a legna."
+    useEffect(() => {
+        gestioneMenu.menuDetail(menuId).then((risposta) => {
+            console.log("-->", risposta);
+            setMenuDetail(risposta);
+        }).catch((error) => {
+            console.log("errore menuDetail", error);
+        });
+    }, []);
+
+    if (!menuDetail) {
+        return (
+            <View style={styles.loadingContainer}>
+                <Text>Caricamento...</Text>
+            </View>
+        );
     }
 
-    return(
+    return (
         <View style={styles.container}>
+            {/* Pulsante per tornare indietro */}
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backText}>←</Text>
             </TouchableOpacity>
-            <Text>MenuDetail: {menuId}</Text>
+
+            {/* Immagine grande */}
+            <Image
+                style={styles.menuImage}
+                source={{ uri: "data:image/png;base64," + menuDetail.Immagine }}
+            />
+
+            {/* Area contenente le informazioni */}
+            <View style={styles.detailContainer}>
+                <Text style={styles.menuTitle}>{menuDetail.Nome}</Text>
+                <Text style={styles.sectionTitle}>Descrizione Completa</Text>
+                <Text style={styles.description}>{menuDetail.Descrizione}</Text>
+                <Text style={styles.price}>{menuDetail.Prezzo}€</Text>
+
+                <Text style={styles.deliveryTime}>*Tempo di consegna stimato: {menuDetail.Tempo} min</Text>
+
+                {/* Pulsante di acquisto */}
+                <TouchableOpacity style={styles.confirmButton} onPress={() => console.log("Acquisto effettuato")}>
+                    <Text style={styles.confirmText}>Effettua ordine {menuDetail.Prezzo}€</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: "#F5F5F5",
     },
     backButton: {
         position: 'absolute',
-        top: 50,
+        top: 40,
         left: 10,
         padding: 10,
-        borderRadius: 70,
-        alignItems: 'center'
+        zIndex: 10,
     },
     backText: {
-        fontSize: 40,
+        fontSize: 30,
+        color: "#000",
+        fontWeight: "bold",
     },
-})
+    menuImage: {
+        width: "100%",
+        height: 300, // Altezza fissa per l'immagine in alto
+        resizeMode: "cover",
+    },
+    detailContainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+         // Sovrapposizione dell'area bianca sopra l'immagine
+        borderTopLeftRadius: 60,
+        borderTopRightRadius: 60,
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 5, // Ombra per Android
+    },
+    menuTitle: {
+        fontSize: 33,
+        fontWeight: "bold",
+        color: "#FF8C00",
+        textAlign: "center",
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#FF8C00",
+        marginTop: 40,
+        marginHorizontal: 'auto'
+    },
+    description: {
+        fontSize: 15,
+        color: "#666",
+        marginTop: 5,
+        textAlign: "justify",
+        marginHorizontal: 16
+    },
+    price: {
+        fontSize: 36,
+        fontWeight: "bold",
+        color: "#2ECC71",
+        textAlign: "center",
+        marginTop: 40,
+    },
+    deliveryTime: {
+        fontSize: 16,
+        color: "#666",
+        textAlign: "center",
+        position: "absolute",
+        bottom: 100,
+        left: 10,
+        right: 10
+    },
+    confirmButton: {
+        position: "absolute",
+        marginHorizontal: '10%',
+        bottom: 40, // Distanza dal bordo inferiore
+        //left: "5%",
+        width: "90%", // Occupa quasi tutta la larghezza
+        backgroundColor: "#FF8C00",
+        paddingVertical: 15,
+        borderRadius: 30,
+        alignItems: "center",
+    },
+    confirmText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#fff",
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+});
+

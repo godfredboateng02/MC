@@ -26,7 +26,7 @@ export default class gestioneMenu {
         let raw = await CommunicationController.getMenuDetails(mid);
         let risposta = {};
         risposta.Nome = raw.name;
-        risposta.Prezzo = raw.price;
+        risposta.Prezzo = parseFloat(raw.price).toFixed(2),
         risposta.Descrizione = raw.longDescription;
         risposta.Tempo = raw.deliveryTime;
         risposta.Immagine = await Storage.getImage(mid, raw.imageVersion);

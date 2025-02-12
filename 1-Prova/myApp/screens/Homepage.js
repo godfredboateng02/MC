@@ -48,10 +48,10 @@ export default function HomeScreen(){
         })
     },[])
 
-    const handleCardPress = (menu) => {
-        console.log("card premuta", menu)
-        setCardPressed(menu);
-        navigate("MenuDetail",{ menuId: menu.mid })
+    const handleCardPress = (mid) => {
+        console.log("card premuta", mid)
+        setCardPressed(mid);
+        navigate("MenuDetail",{ menuId: mid })
     }
 
     return (

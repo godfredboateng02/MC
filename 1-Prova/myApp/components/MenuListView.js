@@ -8,7 +8,7 @@ export default function MenuListView({menu, onCardPress}){
         <View style={styles.container}>
             <FlatList 
                 data = {menu}
-                renderItem = {({item}) => <TouchableOpacity onPress = {()=>onCardPress(item)}><MenuElement menu={item} /></TouchableOpacity>}
+                renderItem = {({item}) => <TouchableOpacity onPress = {()=>onCardPress(item.Mid)}><MenuElement menu={item} /></TouchableOpacity>}
                 keyExtractor = {(item) => item.Mid}
                 numColumns={2}
                 columnWrapperStyle={{justifyContent: 'space-between'}}

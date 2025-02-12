@@ -9,17 +9,7 @@ import formattazione from '../viewmodel/formattazione';
 
 export default function Prova(){
 
-    Storage.getUid().then((ris)=>{
-        console.log("uid",ris)
-    }).catch((error)=>{
-        console.log("errore",error)
-    })
 
-    Storage.getSid().then((ris)=>{
-        console.log("sid",ris)
-    }).catch((error)=>{
-        console.log("errore",error)
-    })
 
     /*const getDati = () => {
         gestioneOrdini.effettuaOrdine(63).then(()=>{
@@ -34,25 +24,25 @@ export default function Prova(){
     const [image, setImage] = useState()
 
     const getDati = () => {
-        gestioneOrdini.lastOrderMenu().then((risposta)=>{
+        Storage.setMid(63).then(() => gestioneOrdini.lastOrderMenu().then((risposta)=>{
             //console.log("ordine ",risposta)
-            let t = "data:image/png;base64,"+risposta.Immagine.slice(8,-1)
-            console.log(t)
-            setImage(t)
+            
             //let t = formattazione.showImage(risposta.Immagine.slice(7))
-            //setImage(t)
-
+            console.log(risposta.Immagine)
+            setImage("data:image/png;base64,"+risposta.Immagine)
         }).catch((error)=>{
             console.log("errore",error)
-        })
+        }))
     }
 
-    if (image != null){
+    if (image != null){         
         return(
             <View style={styles.container}>
                 <Button title="Crea Utente" onPress={()=>getDati()} />
-                <View>
-                    <Image style={styles.cardImage} source={{uri: image}} />
+                <View style={styles.container}>
+                    <Image 
+                        style={styles.cardImage} 
+                        source={{uri: image}} />
                 </View>
             </View>
         )
@@ -74,6 +64,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cardImage:  {
-        width: 300
+        alignItems: 'center',
+        width: 100,
+        height: 100,
     }
 })

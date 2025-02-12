@@ -36,7 +36,7 @@ export default function CardView({dati}){
     }
 }
 
-// STILI PER LA CARTA DI CREDITO
+//STILI PER LA CARTA DI CREDITO
 const styles = StyleSheet.create({
     cardContainer: {
         backgroundColor: "#1E88E5", 

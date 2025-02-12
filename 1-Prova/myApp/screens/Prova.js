@@ -25,8 +25,10 @@ export default function Prova(){
     const [image, setImage] = useState()
 
     const getDati = () => {
-        gestioneMenu.lista((risultato)=>{
-            console.log("risultato",risultato[0])
+        gestioneMenu.lista().then((risultato)=>{
+            //console.log(risultato[0].Nome)
+        }).catch((error)=>{
+            console.log("errore getDati",error)
         })
     }
     return(

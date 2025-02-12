@@ -43,7 +43,7 @@ export default function HomeScreen(){
 
     useEffect(()=>{
         gestioneMenu.lista().then((risposta)=>{
-            console.log("(useEffect) menu",risposta)
+            //console.log("(useEffect) menu",risposta)
             setMenuList(risposta)
         })
     },[])

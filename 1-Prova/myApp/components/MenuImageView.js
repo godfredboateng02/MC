@@ -8,7 +8,7 @@ import { fetchImage } from '../viewmodel/MenuImageLoader';
 export default function MenuImageView({menu}){
     
     const [image, setImage] = useState(null);
-    const imagePrefix = "data:image/png;base64,";
+    //const imagePrefix = "data:image/png;base64,";
 
     /*useEffect(() => {
         CommunicationController.getMenuImage(menu.mid).then((image) => {
@@ -20,20 +20,20 @@ export default function MenuImageView({menu}){
     }); */
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetchImage(menu).then((image) => {
             //setImage(image.base64);
             setImage(image);
         }).catch((error) => {
             console.log("Errore del",error);
         });
-    }, []);
+    }, []);*/
 
     //console.log("Image:",image);
 
     return(
         <View>
-            <Image style={styles.cardImage} source={{uri: image}} />
+            <Image style={styles.cardImage} source={{uri: "data:image/png;base64,"+menu.Immagine}} />
         </View>
     );
 }

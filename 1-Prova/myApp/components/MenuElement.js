@@ -6,19 +6,18 @@ export default function MenuElement({menu}){
 
     //console.log(menu);
 
-    //return(
-        //<View style={styles.container}>
-            {/*<Image style={styles.cardImage}source={require('../assets/menu.jpg')} />*/}
-            //<MenuImageView menu={menu}/>
-            //<Text style = {styles.cardTitle}>{menu.name}</Text>
-            //<Text style={styles.cardDescription} numberOfLines={3} ellipsizeMode='tail'>{menu.shortDescription}</Text>
-            //<View style={styles.row}>
-                //<Text style={styles.price}>{menu.price},99€</Text>
-                //<Text style={styles.time}>{menu.deliveryTime} min ⏱️</Text>
-            //</View>
-        //</View>
-    //);
-    console.log("MenuElement",{menu})
+    return(
+        <View style={styles.container}>
+            <MenuImageView menu={menu}/>
+            <Text style={styles.cardTitle}>{menu.Nome}</Text>
+            <Text style={styles.cardDescription} numberOfLines={3} ellipsizeMode='tail'>{menu.Descrizione}</Text>
+            <View style={styles.row}>
+                <Text style={styles.price}>{menu.Prezzo}€</Text>
+                <Text style={styles.time}>{menu.Tempo} min ⏱️</Text>
+            </View>
+        </View>
+    );
+    
 }
 const styles = StyleSheet.create({
     container:{

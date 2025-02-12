@@ -7,7 +7,6 @@ export default function LastOrderView({lastMenu}){
         Prezzo
         Immagine
 
-
         Data di ordine: formattato in giorno n°giorno mese, ora
     */
 

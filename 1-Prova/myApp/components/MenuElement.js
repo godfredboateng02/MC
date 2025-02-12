@@ -4,20 +4,21 @@ import MenuImageView from './MenuImageView';
 
 export default function MenuElement({menu}){
 
-    console.log(menu);
+    //console.log(menu);
 
-    return(
-        <View style={styles.container}>
+    //return(
+        //<View style={styles.container}>
             {/*<Image style={styles.cardImage}source={require('../assets/menu.jpg')} />*/}
-            <MenuImageView menu={menu}/>
-            <Text style = {styles.cardTitle}>{menu.name}</Text>
-            <Text style={styles.cardDescription} numberOfLines={3} ellipsizeMode='tail'>{menu.shortDescription}</Text>
-            <View style={styles.row}>
-                <Text style={styles.price}>{menu.price},99€</Text>
-                <Text style={styles.time}>{menu.deliveryTime} min ⏱️</Text>
-            </View>
-        </View>
-    );
+            //<MenuImageView menu={menu}/>
+            //<Text style = {styles.cardTitle}>{menu.name}</Text>
+            //<Text style={styles.cardDescription} numberOfLines={3} ellipsizeMode='tail'>{menu.shortDescription}</Text>
+            //<View style={styles.row}>
+                //<Text style={styles.price}>{menu.price},99€</Text>
+                //<Text style={styles.time}>{menu.deliveryTime} min ⏱️</Text>
+            //</View>
+        //</View>
+    //);
+    console.log("MenuElement",{menu})
 }
 const styles = StyleSheet.create({
     container:{

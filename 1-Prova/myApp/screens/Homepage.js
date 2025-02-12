@@ -4,6 +4,7 @@ import MenuListView from '../components/MenuListView';
 import { useEffect, useState } from 'react';
 import { fetchMenu } from '../viewmodel/MenuViewModel';
 import { useNavigation } from '@react-navigation/native';
+import gestioneMenu from '../viewmodel/gestioneMenu';
 
 export default function HomeScreen(){
 
@@ -11,7 +12,7 @@ export default function HomeScreen(){
 
     //questa è una funzione asincrona e quindi deve essere gestita in un altro modo
     const [cardPressed, setCardPressed] = useState()
-    const [menuList, setMenuList] = useState();
+    //const [menuList, setMenuList] = useState();
 
     /*
     nomeChiamata:
@@ -31,10 +32,19 @@ export default function HomeScreen(){
         })
     }, []);*/
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         fetchMenu().then((menus)=>{
             setMenuList(menus)
             console.log("menu preso...")
+        })
+    },[])*/
+
+    const [menuList, setMenuList] = useState()
+
+    useEffect(()=>{
+        gestioneMenu.lista().then((risposta)=>{
+            console.log("(useEffect) menu",risposta)
+            setMenuList(risposta)
         })
     },[])
 
@@ -47,15 +57,15 @@ export default function HomeScreen(){
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-            <Text style={styles.title}>I nostri menu</Text>
-            <Text style={styles.position}></Text>
-            <TouchableOpacity onPress={() => navigate("Profile")}>
-                <Image 
-                    source={require('../assets/Logo.png')} // Sostituisci con il tuo logo
-                    style={styles.logo}
-                    resizeMode="contain"
-                />
-            </TouchableOpacity>
+                <Text style={styles.title}>I nostri menu</Text>
+                <Text style={styles.position}></Text>
+                <TouchableOpacity onPress={() => navigate("Profile")}>
+                    <Image 
+                        source={require('../assets/Logo.png')} // Sostituisci con il tuo logo
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+                </TouchableOpacity>
             </View> 
             <MenuListView menu={menuList} onCardPress={handleCardPress}/>
         </View>

@@ -6,6 +6,7 @@ import gestioneOrdini from '../viewmodel/gestioneOrdini';
 import Storage from '../model/storage';
 import { useState } from 'react'
 import formattazione from '../viewmodel/formattazione';
+import gestioneMenu from '../viewmodel/gestioneMenu';
 
 export default function Prova(){
 
@@ -24,36 +25,16 @@ export default function Prova(){
     const [image, setImage] = useState()
 
     const getDati = () => {
-        Storage.setMid(63).then(() => gestioneOrdini.lastOrderMenu().then((risposta)=>{
-            //console.log("ordine ",risposta)
-            
-            //let t = formattazione.showImage(risposta.Immagine.slice(7))
-            console.log(risposta.Immagine)
-            setImage("data:image/png;base64,"+risposta.Immagine)
-        }).catch((error)=>{
-            console.log("errore",error)
-        }))
+        gestioneMenu.lista((risultato)=>{
+            console.log("risultato",risultato[0])
+        })
     }
-
-    if (image != null){         
-        return(
-            <View style={styles.container}>
-                <Button title="Crea Utente" onPress={()=>getDati()} />
-                <View style={styles.container}>
-                    <Image 
-                        style={styles.cardImage} 
-                        source={{uri: image}} />
-                </View>
-            </View>
-        )
-    }else{
-        return(
-            <View style={styles.container}>
-                <Button title="Crea Utente" onPress={()=>getDati()} />
-                <Text>Nada non funziono</Text>
-            </View>
-        )
-    }
+    return(
+        <View style={styles.container}>
+            <Text>Prova</Text>
+            <Button title="Invio" onPress={()=>getDati()} />
+        </View>
+    )
 
 }
 

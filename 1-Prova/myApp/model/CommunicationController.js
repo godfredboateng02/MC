@@ -227,8 +227,11 @@ export default class CommunicationController {
 
     static async postOrder(mid){
       let endpoint = "menu/"+mid+"/buy"
-      let queryParams = {mid}
-      let bodyParams = {sid: await storage.getSid(), deliveryLocation: {lat: location.getLat(true), lng: location.getLng(true)}}
+      let queryParams = {}
+      let lat = await location.getLat(true)
+      let lng = await location.getLng(true)
+      console.log("lat e lng da postOrder",lat,lng)
+      let bodyParams = {sid: await storage.getSid(), deliveryLocation: {lat: lat, lng: lng}}
       return await this.genericRequest(endpoint, "POST", queryParams, bodyParams)
     }
     static async getOrderStatus(oid){

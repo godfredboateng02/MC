@@ -134,7 +134,6 @@ export default function Profile() {
             setDatiUtente(datiUtente)
             let m = lastOrderMenu()
             setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
-            console.log(t)
         }).catch((error)=>{
             console.log("errore caricamento dei dati dell'utente",error)
             //gestisci con una schermata di reload

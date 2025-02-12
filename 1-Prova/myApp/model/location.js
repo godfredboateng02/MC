@@ -60,6 +60,7 @@ export default class location {
     if (this.lat == null || RN == true) {
       await this.updateLocation();
     }
+    console.log("getLat",this.lat)
     return this.lat;
   }
 
@@ -67,6 +68,7 @@ export default class location {
     if (this.lat == null || RN == true) {
         await this.updateLocation();
     }
+    console.log("getLng",this.lng)
     return this.lng;
   }
 }

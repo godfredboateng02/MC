@@ -2,6 +2,7 @@ import {Text, View, Button, StyleSheet} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { navigate } from '../NavigationService';
 import gestioneAccount from '../viewmodel/gestioneAccount';
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 import Storage from '../model/storage';
 
 export default function Prova(){
@@ -19,8 +20,8 @@ export default function Prova(){
     })
 
     const getDati = () => {
-        gestioneAccount.getUserData().then((dati)=>{
-            console.log("ok",dati)
+        gestioneOrdini.effettuaOrdine(63).then(()=>{
+            console.log("ordine a buon fine")
         }).catch((error)=>{
             console.log("errore: ",error);
             

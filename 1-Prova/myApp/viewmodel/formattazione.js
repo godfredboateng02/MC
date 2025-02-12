@@ -5,12 +5,12 @@ export default class formattazione {
         let data = dataRaw[2] + "/" + dataRaw[1] + "/" + dataRaw[0];
         let oraRaw = stringhe[1].split(":")[0];
         let ora = oraRaw[0] + ":" + oraRaw[1];
-        return {data : data, ora : ora};
+        return {Data : data, Ora : ora};
     }
 
 
     static showImage(image){
-        return "data:image/png;base64," + image;
+        return "data:image/png;base64," + image.slice(8,-1);
     }
     
     static tempoRimanente(expectedTime){ 

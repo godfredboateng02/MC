@@ -12,7 +12,7 @@ export default function EditProfileData(){
     //TO-DO: 
     const route = useRoute();
     const { datiUtente } = route.params || {};
-    //console.log("datiUtente",datiUtente)
+    console.log("datiUtente",datiUtente)
 
     const [lastName, setLastName] = useState(datiUtente?.Cognome || "");
     const [firstName, setFirstName] = useState(datiUtente?.Nome || "");

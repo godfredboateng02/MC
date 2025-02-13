@@ -232,7 +232,8 @@ export default class CommunicationController {
       let lng = await location.getLng(true)
       console.log("lat e lng da postOrder",lat,lng)
       let bodyParams = {sid: await storage.getSid(), deliveryLocation: {lat: lat, lng: lng}}
-      return await this.genericRequest(endpoint, "POST", queryParams, bodyParams)
+      let risposta = await this.genericRequest(endpoint, "POST", queryParams, bodyParams)
+      return JSON.parse(risposta)
     }
     static async getOrderStatus(oid){
       let endpoint = "order/" + oid 

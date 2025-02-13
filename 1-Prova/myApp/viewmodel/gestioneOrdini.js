@@ -10,7 +10,8 @@ export default class gestioneOrdini{
     static async effettuaOrdine(mid){
         console.log("Acquisto effettuato");
         let ordine = await CommunicationController.postOrder(mid)
-        await storage.setRistorante({lat: ordine.curretPosition.lat, lng: ordine.curretPosition.lng})
+        //console.log(ordine.curretPosition)
+        //await storage.setRistorante({lat: ordine.curretPosition.lat, lng: ordine.curretPosition.lng})
         await storage.setOid(ordine.oid)
         await storage.setMid(mid)
     }

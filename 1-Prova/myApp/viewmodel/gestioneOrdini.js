@@ -49,7 +49,7 @@ export default class gestioneOrdini{
         //PROBLEMA CON L'ULTIMO ORDINE oid hard-coded
         let raw = undefined
         try {
-            console.log("NON in PRE orderstatus")
+            console.log("NON in PRE orderstatus",oid)
              raw = await CommunicationController.getOrderStatus(8444)
              console.log("NON in POST orderstatus")
         } catch (error) {

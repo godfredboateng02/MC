@@ -70,6 +70,4 @@ export default class gestioneAccount {
         let risposta = await CommunicationController.getOrderStatus(oid);
         return formattazione.extractTime(risposta.creationTimestamp);
     }
-
-
 }

@@ -144,7 +144,7 @@ export default function Profile() {
         gestioneAccount.lastOrderTime().then((tempo)=>{
             setLastOrderMenuTime(tempo)
         }).catch((error)=>{
-            console.log("errore",error)
+            console.log("errore ",error)
         })
         
     },[])

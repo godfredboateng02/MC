@@ -17,24 +17,25 @@ export default function LastOrderView({lastMenu}){
             </View>
         );
     }
-
-    return (
-        <View style={styles.cardContainer}>
-            {/* Immagine a sinistra */}
-            <Image 
-                source={require('../assets/menu.png')} // Sostituisci con il percorso corretto dell'immagine
-                style={styles.cardImage}
-                resizeMode="cover"
-            />
-
-            {/* Contenuto testuale a destra */}
-            <View style={styles.textContainer}>
-                <Text style={styles.title}>{lastMenu.Nome}</Text>
-                <Text style={styles.description}>{lastMenu.Descrizione}</Text>
-                <Text style={styles.price}>{lastMenu.Prezzo}</Text>
+    else{
+        return (
+            <View style={styles.cardContainer}>
+                {/* Immagine a sinistra */}
+                <Image 
+                    source={require('../assets/menu.png')} // Sostituisci con il percorso corretto dell'immagine
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                />
+    
+                {/* Contenuto testuale a destra */}
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>{lastMenu.Nome}</Text>
+                    <Text style={styles.description}>{lastMenu.Descrizione}</Text>
+                    <Text style={styles.price}>{lastMenu.Prezzo}</Text>
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({

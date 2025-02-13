@@ -1,6 +1,11 @@
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import { navigate } from '../NavigationService';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function CardView({dati}){
+
+    const navigation = useNavigation();
 
     if (!dati || !dati.Carta) {
         return (
@@ -10,7 +15,7 @@ export default function CardView({dati}){
         );
     }else{
         return (
-            <TouchableOpacity style={styles.cardContainer} onPress={() => console.log("Carta cliccata")}>
+            <TouchableOpacity style={styles.cardContainer} onPress={() => navigate('EditProfileCard', {datiCarta: dati})}>
                 <Text style={styles.cardBrand}>Visa</Text>
     
                 <View style={styles.cardRow}>

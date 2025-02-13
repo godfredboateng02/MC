@@ -12,6 +12,7 @@ export default function MenuListView({menu, onCardPress}){
                 keyExtractor = {(item) => item.Mid}
                 numColumns={2}
                 columnWrapperStyle={{justifyContent: 'space-between'}}
+                contentContainerStyle={{paddingBottom: 50}} //serve per mettere lo spazio alla fine della Flatlist
             />
         </View>
     );
@@ -19,8 +20,7 @@ export default function MenuListView({menu, onCardPress}){
 
 const styles = StyleSheet.create({
     container:{
-        //nulla per ora
-        
+        flex: 1,
     },
     sectionTitle:{
         fontSize: 25,

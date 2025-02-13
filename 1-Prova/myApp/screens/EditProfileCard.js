@@ -33,11 +33,29 @@ export default function EditProfileCard(){
         console.log("onEdit",card)
         gestioneAccount.updateUserCard(card).then(()=>{
             console.log("aggiornato dati carta")
-            navigate("Profile")
+            navigation.goBack()
         }).catch((error)=>{
             console.log("errore aggiornamento dati",error)
         })
     }
+
+    // Funzione per gestire il cambiamento del numero di carta e inserire spazi
+    const handleCardNumberChange = (text) => {
+        let cleaned = text.replace(/\D/g, '').substring(0, 16); // Rimuove tutto tranne numeri e limita a 16 cifre
+        let formatted = cleaned.replace(/(\d{4})/g, '$1 ').trim(); // Aggiunge spazio ogni 4 cifre
+        setCardNumber(formatted);
+        console.log(formatted)
+    };
+
+    const isValid = () => {
+        return (
+            cardFullName.length > 0 && cardFullName.length <= 31 &&
+            /^[0-9]{16}$/.test(cardNumber.replace(/\s/g, '')) &&
+            /^[1-9]$|^1[0-2]$/.test(cardExpireMonth) &&
+            /^[2-9][0-9]{3}$/.test(cardExpireYear) && cardExpireYear >= 2000 &&
+            /^[0-9]{3}$/.test(cardCVV)
+        );
+    };
 
     /*
     TO-DO: (VIEW) posso usarla solamente dopo aver effettuato la chiamata di rete alla viewModel, per modificare i dati della carta
@@ -58,6 +76,10 @@ export default function EditProfileCard(){
 
     */
 
+    //FUNZIONE PER VALIDARE I PROPRI DATI INSERITI
+
+
+
     return (
         <View style={styles.container}>
             {/* HEADER ARANCIONE */}
@@ -77,7 +99,7 @@ export default function EditProfileCard(){
                 <TextInput
                     style={styles.input}
                     value={cardFullName}
-                    onChangeText={setCardFullName}
+                    onChangeText={(text) => text.length <= 31 && setCardFullName(text)}
                     placeholder='es. Mario Rossi'
                 />
 
@@ -87,7 +109,8 @@ export default function EditProfileCard(){
                     keyboardType="numeric"
                     value={cardNumber}
                     onChangeText={setCardNumber}
-                    placeholder='XXXX XXXX XXXX XXXX'
+                    placeholder="XXXX XXXX XXXX XXXX"
+                    maxLength={16} //aggiunge i 3 spazi tra i numeri per migliorare lettura
                 />
 
                 {/* EXPIRE DATE & CVV */}
@@ -101,6 +124,7 @@ export default function EditProfileCard(){
                                 value={cardExpireMonth}
                                 onChangeText={setCardExpireMonth}
                                 placeholder="MM"
+                                maxLength={2}
                             />
                             <TextInput
                                 style={[styles.input, styles.expireInput]}
@@ -108,6 +132,7 @@ export default function EditProfileCard(){
                                 value={cardExpireYear}
                                 onChangeText={setCardExpireYear}
                                 placeholder="YYYY"
+                                maxLength={4}
                             />
                         </View>
                     </View>
@@ -120,6 +145,7 @@ export default function EditProfileCard(){
                             value={cardCVV}
                             onChangeText={setCardCVV}
                             placeholder='123'
+                            maxLength={3}
                         />
                     </View>
                 </View>

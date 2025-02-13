@@ -20,6 +20,8 @@ export default function LastOrderView(){
         })
     },[])
 
+    //console.log(lastMenu)
+
     if (!lastMenu) {
         return (
             <View style={styles.emptyContainer}>

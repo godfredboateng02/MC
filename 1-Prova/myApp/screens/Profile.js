@@ -13,7 +13,7 @@ export default function Profile() {
 
     //TO-DO: questi dati devono essere ottenuti tramite una chiamata getUser alla viewmodel e poi passati alle componenti come props
     //simula l'oggetto ricevuto dalla chiamata
-    const Dati = {
+    /*const Dati = {
         Nome: 'Mario',
         Cognome: 'Rossi',
         Carta: {
@@ -23,7 +23,7 @@ export default function Profile() {
             Titolare: "Mario Rossi"
         }
 
-    }
+    }*/
     //simula la chiamata
     /*getUserData = () => {
         return Dati
@@ -94,12 +94,12 @@ export default function Profile() {
     const [lastMenu, setLastMenu] = useState()
 
     //Simulazione dei dati ricevuti dalla rete
-    const lastOrder = {
+    /*const lastOrder = {
         Nome: 'Pasta al Pesto',
         Descrizione: "Un piatto molto esotico da terre lontane genovesi",
         Prezzo: '12,99€',
         Immagine: "../assets/piatto.png"
-    }
+    }*/
 
 
     
@@ -195,7 +195,7 @@ export default function Profile() {
             {lastOrderMenuTime?.risposta && (<Text style={styles.ora}>{lastOrderMenuTime.risposta}</Text>)}
 
             <View style={styles.lastOrderContainer}>
-                <LastOrderView lastMenu={lastMenu}/>
+                <LastOrderView />
             </View>
 
         </View>

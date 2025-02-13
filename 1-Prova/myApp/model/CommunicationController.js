@@ -236,8 +236,10 @@ export default class CommunicationController {
       return JSON.parse(risposta)
     }
     static async getOrderStatus(oid){
-      let endpoint = "order/" + oid 
-      let queryParams = { sid: await storage.getSid(), oid: oid };
+      let endpoint = "order/" + oid
+      console.log("end->->->",endpoint) 
+      let sid = await storage.getSid()
+      let queryParams = { sid: sid, oid: oid};
      // console.log("getMenuImage called with endpoint: ",endpoint, " and queryParams: ", queryParams);
       return await this.genericGetRequest(endpoint, queryParams);
   }

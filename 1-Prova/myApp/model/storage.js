@@ -45,10 +45,12 @@ export default class Storage {
     }
 
     static async getOid() {
+        console("storage OID1",this.oid)
         if (this.oid == null) {
             let oid = await AsyncStorage.getItem('oid');
             this.oid = oid ? JSON.parse(oid) : null;
         }
+        console("storage OID",this.oid)
         return this.oid;
     }
 

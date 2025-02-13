@@ -15,8 +15,10 @@ export default class formattazione {
     
     static tempoRimanente(expectedTime){ 
         let data1 = new Date(expectedTime);
-        let data2 = new Date().toISOString();
+        let data2 = new Date(); // Usa direttamente un oggetto Date
         let differenzaMs = Math.abs(data1 - data2);
-        return Math.ceil(differenzaMs / 1000 / 60); // 60.000 ms = 1 minuto
+        let t = Math.ceil(differenzaMs / (1000 * 60)); // Converte millisecondi in minuti
+        console.log("tempo rimanente:", t);
+        return t;
     }
 }

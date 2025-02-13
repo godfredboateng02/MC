@@ -21,13 +21,13 @@ export default function EditProfileCard(){
 
     //TO-DO: (VIEWMODEL) mi serve una chiamata personalizzata per la modifica solamente dei dati della carta e non del nome e cognome
     //nomeChiamata: updateUserName({Nome: " ", Cognome:" "})
-    useEffect(()=>{
+    /*useEffect(()=>{
         setCardFullName(datiCarta.cardFullName)
         setCardNumber(datiCarta.cardNumber)
         setCardExpireMonth(datiCarta.cardExpireMonth)
         setCardExpireYear(datiCarta.cardExpireYear)
         setCardCVV(datiCarta.cardCVV)
-    },[])
+    },[])*/
 
     const onEdit = (card) =>{
         console.log("onEdit",card)

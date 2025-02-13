@@ -3,6 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import gestioneMenu from '../viewmodel/gestioneMenu';
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
 export default function MenuDetail() {
     const navigation = useNavigation();
@@ -12,7 +13,7 @@ export default function MenuDetail() {
 
     useEffect(() => {
         gestioneMenu.menuDetail(menuId).then((risposta) => {
-            console.log("-->", risposta);
+            //console.log("-->", risposta);
             setMenuDetail(risposta);
         }).catch((error) => {
             console.log("errore menuDetail", error);
@@ -25,6 +26,15 @@ export default function MenuDetail() {
                 <Text>Caricamento...</Text>
             </View>
         );
+    }
+
+    const onBuy = (mid) => {
+        gestioneOrdini.effettuaOrdine(mid).then(()=>{
+            console.log("ordine effettuato")
+            navigation.goBack()
+        }).catch((error)=>{
+            console.log("errore da onBuy",error)
+        })
     }
 
     return (
@@ -50,7 +60,7 @@ export default function MenuDetail() {
                 <Text style={styles.deliveryTime}>*Tempo di consegna stimato: {menuDetail.Tempo} min</Text>
 
                 {/* Pulsante di acquisto */}
-                <TouchableOpacity style={styles.confirmButton} onPress={() => console.log("Acquisto effettuato")}>
+                <TouchableOpacity style={styles.confirmButton} onPress={() => onBuy(menuId)}>
                     <Text style={styles.confirmText}>Effettua ordine {menuDetail.Prezzo}€</Text>
                 </TouchableOpacity>
             </View>

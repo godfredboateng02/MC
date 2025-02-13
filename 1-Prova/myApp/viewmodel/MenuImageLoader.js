@@ -5,7 +5,7 @@ export async function fetchImage (menu) {
     //console.log("Menu2:",mid);
 
     let uri = undefined
-    console.log("Menu-->",menu.mid);
+    //console.log("Menu-->",menu.mid);
     try{
         uri = await CommunicationController.getMenuImage(menu.mid);
         //console.log("URI:",uri);

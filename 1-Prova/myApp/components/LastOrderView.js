@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image} from 'react-native'
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
-export default function LastOrderView({lastMenu}){
+export default function LastOrderView(){
     /*TO-DO: prendo tramite le  il lastOid e faccio una chiamata di rete 
         Nome piatto
         Descrizione breve
@@ -9,6 +11,14 @@ export default function LastOrderView({lastMenu}){
 
         Data di ordine: formattato in giorno n°giorno mese, ora
     */
+
+    const [lastMenu, setLastMenu] = useState()
+
+    useEffect(()=>{
+        gestioneOrdini.lastOrderMenu().then((risposta)=>{
+            setLastMenu(risposta)
+        })
+    },[])
 
     if (!lastMenu) {
         return (
@@ -22,7 +32,7 @@ export default function LastOrderView({lastMenu}){
             <View style={styles.cardContainer}>
                 {/* Immagine a sinistra */}
                 <Image 
-                    source={require('../assets/menu.png')} // Sostituisci con il percorso corretto dell'immagine
+                    source={{uri: "data:image/png;base64,"+lastMenu.Immagine}} // Sostituisci con il percorso corretto dell'immagine
                     style={styles.cardImage}
                     resizeMode="cover"
                 />
@@ -31,7 +41,7 @@ export default function LastOrderView({lastMenu}){
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>{lastMenu.Nome}</Text>
                     <Text style={styles.description}>{lastMenu.Descrizione}</Text>
-                    <Text style={styles.price}>{lastMenu.Prezzo}</Text>
+                    <Text style={styles.price}>{lastMenu.Prezzo}€</Text>
                 </View>
             </View>
         );

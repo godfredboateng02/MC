@@ -5,6 +5,8 @@ import CardView from '../components/CardView';
 import LastOrderView from '../components/LastOrderView';
 import { navigate } from '../NavigationService';
 import gestioneAccount from '../viewmodel/gestioneAccount';
+import Storage from '../model/storage';
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
 export default function Profile() {
     const navigation = useNavigation();
@@ -23,9 +25,9 @@ export default function Profile() {
 
     }
     //simula la chiamata
-    getUserData = () => {
+    /*getUserData = () => {
         return Dati
-    }
+    }*/
 
     /*
     N.B. specifica solamente per questa pagina non per altre
@@ -68,6 +70,10 @@ export default function Profile() {
         L'oggetto carta sarà null e quindi terrò la schermata vuota
     */
 
+    //TO-DO: RIMUOVI ASSOLUTAMENTE QUESTE 2 RIGHEEEEEEE!
+    Storage.getSid().then((risu)=>{console.log(risu)})
+    Storage.getUid().then((risu)=>{console.log(risu)})
+
     const [datiUtente, setDatiUtente] = useState(null)
 
     /*gestioneAccount.updateUserName({Cognome: "Rossi", Nome: "Matteo"}).then(()=>{
@@ -98,9 +104,9 @@ export default function Profile() {
 
     
     //Simulazione della funzione per prendere i dati dell'ultimo menu
-    lastOrderMenu = () => {
+    /*lastOrderMenu = () => {
         return lastOrder
-    }
+    }*/
 
     //---------------------------------------------------------------------------------------------------
 

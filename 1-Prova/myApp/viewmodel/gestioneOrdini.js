@@ -17,6 +17,8 @@ export default class gestioneOrdini{
 
     static async lastOrderMenu(){
         let mid = await storage.getMid()
+        //TO-DO: toglilo!!!!!!!
+        mid = 63
         if (mid === null){
             return null
         }
@@ -24,7 +26,7 @@ export default class gestioneOrdini{
         let menu = await CommunicationController.getMenuDetails(mid)
         let risposta = {}
         risposta.Nome = menu.name
-        risposta.Prezzo = menu.price
+        risposta.Prezzo = parseFloat(menu.price).toFixed(2),
         risposta.Descrizione = menu.shortDescription
         risposta.Immagine = await storage.getImage(mid, menu.imageVersion)
         return risposta

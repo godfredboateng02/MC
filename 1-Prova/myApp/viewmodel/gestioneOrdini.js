@@ -17,6 +17,9 @@ export default class gestioneOrdini{
 
     static async lastOrderMenu(){
         let mid = await storage.getMid()
+        if (mid === null){
+            return null
+        }
         console.log("mid",mid)
         let menu = await CommunicationController.getMenuDetails(mid)
         let risposta = {}
@@ -29,6 +32,9 @@ export default class gestioneOrdini{
 
     static async orderStatus(){
         let oid = await storage.getOid()
+        if (oid === null){
+            return null
+        }
         let raw = await CommunicationController.getOrderStatus(oid)
         let risposta = {};
         risposta.Stato = raw.status;

@@ -64,6 +64,9 @@ export default class gestioneAccount {
 
     static async lastOrderTime(){
         let oid = await storage.getOid();
+        if (oid == null){
+            return null;
+        }
         let risposta = await CommunicationController.getOrderStatus(oid);
         return formattazione.extractTime(risposta.creationTimestamp);
     }

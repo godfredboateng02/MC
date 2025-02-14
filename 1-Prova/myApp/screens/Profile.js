@@ -148,9 +148,10 @@ export default function Profile() {
         })
         
         gestioneAccount.lastOrderTime().then((tempo)=>{
+            console.log("tempo:",tempo)
             setLastOrderMenuTime(tempo)
         }).catch((error)=>{
-            console.log("errore ",error)
+            console.log("errore da lastOrderTime",error)
         })
         
     },[])

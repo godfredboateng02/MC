@@ -1,10 +1,11 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import gestioneMenu from '../viewmodel/gestioneMenu';
 import gestioneOrdini from '../viewmodel/gestioneOrdini';
 import gestioneAccount from '../viewmodel/gestioneAccount';
+import { navigate } from '../NavigationService';
 
 export default function MenuDetail() {
     const navigation = useNavigation();
@@ -17,8 +18,6 @@ export default function MenuDetail() {
     const [buttonText, setButtonText] = useState("") //testo del bottone
     const [buttonAction, setButtonAction] = useState() //funzione da eseguire
     const [shouldRenderAgain, setShouldRenderAgain] = useState(false);
-
-
 
     //const [ordineInCorso, setOrdineInCorso] = useState(false);
     //const [buttonAction, setButtonAction] = useState(null);
@@ -53,21 +52,24 @@ export default function MenuDetail() {
 
     },[]);
 
+    
+
     useEffect(()=>{
         if (shouldRenderAgain){
             console.log(Carta, ordineInCorso)
             if (Carta === null){
                 setButtonText("Inserisci i dati della carta")
+                setButtonAction(()=>onAdd)
             }else if (ordineInCorso){
                 setButtonText("C'è già un ordine in corso")
+                setButtonAction(()=>onDelivery)
             }else{
-                console.log("ordineInCorso2",ordineInCorso)
                 setButtonText("Acquista il menu")
+                setButtonAction(()=>onBuy)
             }
+            
         }
     },[Carta,ordineInCorso,shouldRenderAgain])
-
-    
 
     /* 2 - Recupero i dati utente e stato ordine per vedere se effettivamente posso fare l'ordine o no
     Questo mi gestirà anche il cambio del bottone ovvero:
@@ -122,14 +124,9 @@ export default function MenuDetail() {
     }, [isLoading, userCard, ordineInCorso, menuDetail]);*/
 
     // Funzione per effettuare l'ordine. viene richiamata 
-    const onBuy = () => {
-        gestioneOrdini.effettuaOrdine(menuId).then(() => {
-                console.log("Ordine effettuato");
-                navigation.goBack();
-        }).catch((error) => {
-            console.log("Errore da onBuy:", error)
-        });
-    };
+    
+
+    
 
     // Funzione per andare alla pagina di inserimento carta
     /*const vaiAllaCarta = () => {
@@ -150,10 +147,33 @@ export default function MenuDetail() {
         );
     }*/
 
+    const onBuy = () => {
+        gestioneOrdini.effettuaOrdine(menuId).then(() => {
+                console.log("Ordine effettuato");
+                navigation.goBack();
+        }).catch((error) => {
+            console.log("Errore da onBuy:", error)
+        });
+    };
+
+    const onAdd = () => {
+        navigate("EditProfileCard")
+    }
+
+    const onDelivery = () => {
+        navigate("Delivery")
+    }
+
+    const onPress2 = () => {
+        if (buttonAction){
+            buttonAction()
+        }
+    }
+
     return (
         <View style={styles.container}>
             {/* Pulsante per tornare indietro */}
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <TouchableOpacity onPress={() => navigate("Home")} style={styles.backButton}>
                 <Text style={styles.backText}>←</Text>
             </TouchableOpacity>
 
@@ -172,7 +192,10 @@ export default function MenuDetail() {
                 <Text style={styles.deliveryTime}>*Tempo di consegna stimato: {menuDetail?.Tempo} min</Text>
 
                 {/* Pulsante dinamico */}
-                <TouchableOpacity style={styles.buyButton} onPress={()=>onBuy(menuId)}>
+                <TouchableOpacity style={styles.buyButton} onPress={()=>{
+                    console.log("bottone premuto");
+                    onPress2()
+                }}>
                     <Text style={styles.confirmText}>{buttonText}</Text>
                 </TouchableOpacity>
             </View>

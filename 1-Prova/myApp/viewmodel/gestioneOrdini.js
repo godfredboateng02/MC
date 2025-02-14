@@ -6,12 +6,17 @@ import formattazione from "./formattazione";
 
 export default class gestioneOrdini{
 
+    static async consegnaInCorso(){
+        let consegna = await storage.inConsegna()
+        return consegna
+    }
 
     static async effettuaOrdine(mid){
         console.log("Acquisto effettuato");
         let ordine = await CommunicationController.postOrder(mid)
+        await storage.setConsegna(true)
         //console.log(ordine.curretPosition)
-        await storage.setRistorante({lat: ordine.curretPosition.lat, lng: ordine.curretPosition.lng})
+        await storage.setRistorante(mid)
         await storage.setOid(ordine.oid)
         await storage.setMid(mid)
     }
@@ -68,6 +73,7 @@ export default class gestioneOrdini{
         if (raw.status === "ON_DELIVERY"){
             risposta.Tempo = formattazione.tempoRimanente(raw.expectedDeliveryTimestamp);
         }else{
+            await storage.setConsegna(false)
             risposta.Tempo = null;
             risposta.Consegnato = formattazione.extractTime(raw.deliveryTimestamp);
         }

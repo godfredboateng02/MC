@@ -8,6 +8,7 @@ export default class Storage {
     static oid = null;
     static mid = null;
     static ristorante = null;
+    static consegna = null;
 
     static async getSid() {
         if (this.sid != null) {
@@ -80,9 +81,15 @@ export default class Storage {
         return this.ristorante;
     }
 
-    static async setRistorante(ristorante) {
+    static async setRistorante(mid) {
+        let risposta = await CommunicationController.getMenuDetails(mid);
+        let ristorante = {};
+        ristorante.lat = risposta.location.lat;
+        ristorante.lng = risposta.location.lng;
+
         this.ristorante = ristorante;
-        await AsyncStorage.setItem('ristorante', JSON.stringify(ristorante));
+        console.log("setRistorante lat,lng : ", this.ristorante.lat," ", this.ristorante.lng);
+        await AsyncStorage.setItem('ristorante', JSON.stringify(this.ristorante));
     }
 
     static async getImage(mid, version) {
@@ -99,5 +106,18 @@ export default class Storage {
             await DB.updateImage(mid, version, image);
         }
         return image;
+    }
+
+    static async inConsegna() {
+        if (this.consegna == null) {
+            let consegna = await AsyncStorage.getItem('consegna');
+            this.consegna = consegna ? JSON.parse(consegna) : false;
+        }
+        return this.consegna;
+    }
+
+    static async setConsegna(consegna) {
+        this.consegna = consegna;
+        await AsyncStorage.setItem('consegna', JSON.stringify(consegna));
     }
 }

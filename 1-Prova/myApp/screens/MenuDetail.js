@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import gestioneMenu from '../viewmodel/gestioneMenu';
 import gestioneOrdini from '../viewmodel/gestioneOrdini';
 import gestioneAccount from '../viewmodel/gestioneAccount';
@@ -12,40 +12,101 @@ export default function MenuDetail() {
     const { menuId } = route.params;
 
     const [menuDetail, setMenuDetail] = useState(null);
-    const [userCard, setUserCard] = useState(null);
-    const [ordineInCorso, setOrdineInCorso] = useState(false);
-    const [buttonAction, setButtonAction] = useState(null);
-    const [buttonText, setButtonText] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+    const [Carta, setCarta] = useState(1)
+    const [ordineInCorso, setOrdineInCorso] = useState()
+    const [buttonText, setButtonText] = useState("") //testo del bottone
+    const [buttonAction, setButtonAction] = useState() //funzione da eseguire
+    const [shouldRenderAgain, setShouldRenderAgain] = useState(false);
 
-    // Recupero i dettagli del menu
-    useEffect(() => {
-        gestioneMenu.menuDetail(menuId)
-            .then((risposta) => setMenuDetail(risposta))
-            .catch((error) => console.log("Errore menuDetail:", error));
-    }, [menuId]);
 
-    // Recupero i dati utente e stato ordine
+
+    //const [ordineInCorso, setOrdineInCorso] = useState(false);
+    //const [buttonAction, setButtonAction] = useState(null);
+    //const [buttonText, setButtonText] = useState("");
+    //const [isLoading, setIsLoading] = useState(true);
+
+    // 1 - Recupero i dettagli del menu e li inserisco in uno stato
     useEffect(() => {
-        Promise.all([
-            gestioneAccount.getUserData(),
-            gestioneOrdini.orderStatus()
-        ])
-        .then(([datiUtente, statoOrdine]) => {
-            console.log("Dati utente:", datiUtente);
-            setUserCard(datiUtente?.Carta);
-            console.log("Stato ordine:", statoOrdine);
-            setOrdineInCorso(statoOrdine?.Stato === "ON_DELIVERY");
-            setIsLoading(false);
+        gestioneMenu.menuDetail(menuId).then((risposta) => {
+            setMenuDetail(risposta)
+        }).catch((error) => {
+            console.log("Errore menuDetail:", error)
+        });
+
+        gestioneAccount.getUserData().then((risposta)=>{
+            //console.log("Carta:",risposta.Carta)
+            setCarta(risposta.Carta)
+        }).catch((error)=>{
+            console.log("Errore nel recupero dati carta",error)
         })
-        .catch((error) => {
+
+        gestioneOrdini.consegnaInCorso().then((risposta)=>{
+            setOrdineInCorso(risposta)
+            console.log("ordineinCorso1",risposta)
+        }).catch((error)=>{
+            console.log("Errore nel recupero dell'ordine in corso")
+        })
+
+        setTimeout(()=>{
+            setShouldRenderAgain(true)
+        },1000)
+
+    },[]);
+
+    useEffect(()=>{
+        if (shouldRenderAgain){
+            console.log(Carta, ordineInCorso)
+            if (Carta === null){
+                setButtonText("Inserisci i dati della carta")
+            }else if (ordineInCorso){
+                setButtonText("C'è già un ordine in corso")
+            }else{
+                console.log("ordineInCorso2",ordineInCorso)
+                setButtonText("Acquista il menu")
+            }
+        }
+    },[Carta,ordineInCorso,shouldRenderAgain])
+
+    
+
+    /* 2 - Recupero i dati utente e stato ordine per vedere se effettivamente posso fare l'ordine o no
+    Questo mi gestirà anche il cambio del bottone ovvero:
+        a. se i dati della carta non ci sono non posso effettuare ordini
+            - il bottone mi porta alla schermata di inserimento dei dati della carta
+        
+        b. se abbiamo un ordine in corso, non posso effettuare ordini
+            - il bottone mi porta nella schermata dell'ordine in corso
+
+        c. se è tutto ok effettuo l'ordine
+            - cliccando il bottone posso effettuare un ordine
+    */
+    /*useEffect(() => {
+        Promise.all([
+            gestioneAccount.getUserData(), //chiamata per prendere i dati della carta
+            gestioneOrdini.orderStatus() //chiamata per riprendere i dati della order status
+        ]).then(([datiUtente, statoOrdine]) => {
+            //console.log("Dati utente:", datiUtente);
+            setUserCard(datiUtente?.Carta); //Variabile di stato per la carta dell'utente
+            //console.log("Stato ordine:", statoOrdine);
+            setOrdineInCorso(statoOrdine?.Stato === "ON_DELIVERY"); //Variabile di stato per lo stato dell'ordine
+            setIsLoading(false);
+        }).catch((error) => {
             console.log("Errore durante il recupero dei dati:", error);
             setIsLoading(false);
         });
-    }, []);
+    }, []);*/
 
-    // Imposta dinamicamente il comportamento del pulsante solo dopo aver caricato tutto
-    useEffect(() => {
+    /* 3. Impostiamo dinamicamente il comportamento del pulsante solo dopo aver caricato tutto
+        Se non siamo più in carica e abbiamo il dettaglio del menu (ovvero è stato renderizzato tutto), mi assicuro di queste 3 cose:
+
+        a. se la carta dell'utente è null allora porto con un tasto di azione a inserire i dati della carta
+        b. se c'è un ordine in corso === true allora va nella pagina dell'ordine in corso
+        c. se non è verificata nessuna delle condizioni mostrami il pulsante per effettuare l'ordine
+
+        *i parametri finali indicano che se isLoading, userCard, ordineInCorso, menuDetail cambiano refresha la pagina
+    */
+
+    /*useEffect(() => {
         if (!isLoading && menuDetail) {
             if (!userCard) {
                 setButtonAction(() => vaiAllaCarta);
@@ -58,36 +119,36 @@ export default function MenuDetail() {
                 setButtonText(`Effettua ordine ${menuDetail?.Prezzo ?? ''}€`);
             }
         }
-    }, [isLoading, userCard, ordineInCorso, menuDetail]);
+    }, [isLoading, userCard, ordineInCorso, menuDetail]);*/
 
-    // Funzione per effettuare l'ordine
+    // Funzione per effettuare l'ordine. viene richiamata 
     const onBuy = () => {
-        gestioneOrdini.effettuaOrdine(menuId)
-            .then(() => {
+        gestioneOrdini.effettuaOrdine(menuId).then(() => {
                 console.log("Ordine effettuato");
                 navigation.goBack();
-            })
-            .catch((error) => console.log("Errore da onBuy:", error));
+        }).catch((error) => {
+            console.log("Errore da onBuy:", error)
+        });
     };
 
     // Funzione per andare alla pagina di inserimento carta
-    const vaiAllaCarta = () => {
+    /*const vaiAllaCarta = () => {
         navigation.navigate("EditProfileCard");
-    };
+    };*/
 
     // Funzione per gestire l'ordine in corso
-    const vaiAllOrdineInCorso = () => {
+    /*const vaiAllOrdineInCorso = () => {
         console.log("Vado alla pagina dell'ordine in corso");
-    };
+    };*/
 
     // Controllo caricamento dati
-    if (!menuDetail || isLoading) {
+    /*if (!menuDetail || isLoading) {
         return (
             <View style={styles.loadingContainer}>
                 <Text>Caricamento...</Text>
             </View>
         );
-    }
+    }*/
 
     return (
         <View style={styles.container}>
@@ -99,23 +160,19 @@ export default function MenuDetail() {
             {/* Immagine grande */}
             <Image
                 style={styles.menuImage}
-                source={{ uri: "data:image/png;base64," + menuDetail.Immagine }}
+                source={{ uri: "data:image/png;base64," + menuDetail?.Immagine }}
             />
 
             {/* Area contenente le informazioni */}
             <View style={styles.detailContainer}>
-                <Text style={styles.menuTitle}>{menuDetail.Nome}</Text>
+                <Text style={styles.menuTitle}>{menuDetail?.Nome}</Text>
                 <Text style={styles.sectionTitle}>Descrizione Completa</Text>
-                <Text style={styles.description}>{menuDetail.Descrizione}</Text>
-                <Text style={styles.price}>{menuDetail.Prezzo}€</Text>
-                <Text style={styles.deliveryTime}>*Tempo di consegna stimato: {menuDetail.Tempo} min</Text>
+                <Text style={styles.description}>{menuDetail?.Descrizione}</Text>
+                <Text style={styles.price}>{menuDetail?.Prezzo}€</Text>
+                <Text style={styles.deliveryTime}>*Tempo di consegna stimato: {menuDetail?.Tempo} min</Text>
 
                 {/* Pulsante dinamico */}
-                <TouchableOpacity
-                    style={[styles.confirmButton, ordineInCorso && styles.disabledButton]}
-                    onPress={buttonAction}
-                    disabled={ordineInCorso}
-                >
+                <TouchableOpacity style={styles.buyButton} onPress={()=>onBuy(menuId)}>
                     <Text style={styles.confirmText}>{buttonText}</Text>
                 </TouchableOpacity>
             </View>
@@ -191,7 +248,7 @@ const styles = StyleSheet.create({
         left: 10,
         right: 10,
     },
-    confirmButton: {
+    buyButton: {
         position: "absolute",
         marginHorizontal: '10%',
         bottom: 40,

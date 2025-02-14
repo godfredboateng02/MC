@@ -160,7 +160,7 @@ export default function Profile() {
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => navigate("Home")} style={styles.backButton}>
                     <Text style={styles.backText}>←</Text>
                 </TouchableOpacity> 
                 <Image 

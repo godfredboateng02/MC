@@ -3,7 +3,7 @@ import {Text, View, StyleSheet} from 'react-native'
 export default function LoadScreen(){
     return(
         <View>
-            <Text>Caricamento dei dati</Text>
+            <Text>Caricamento dei dati...</Text>
         </View>
     )
 }

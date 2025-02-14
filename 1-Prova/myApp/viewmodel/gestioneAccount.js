@@ -11,6 +11,8 @@ export default class gestioneAccount {
         }catch(error){
             console.log("errore da getUser:",error)
         }
+
+        await storage.setConsegna("ON_DELIVERY" == risposta.orderStatus)
         
         let userData = {};
         userData.Nome = risposta.firstName;

@@ -30,10 +30,10 @@ export default function EditProfileCard(){
     },[])*/
 
     const onEdit = (card) =>{
-        console.log("onEdit",card)
+        //console.log("onEdit",card)
         gestioneAccount.updateUserCard(card).then(()=>{
             console.log("aggiornato dati carta")
-            navigation.goBack()
+            navigate("Profile")
         }).catch((error)=>{
             console.log("errore aggiornamento dati",error)
         })

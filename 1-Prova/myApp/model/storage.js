@@ -9,6 +9,34 @@ export default class Storage {
     static mid = null;
     static ristorante = null;
     static consegna = null;
+    static pagina = null;
+    static parametri = null;
+
+    static async getPagina() {
+        if (this.pagina == null) {
+            let pagina = await AsyncStorage.getItem('pagina');
+            this.pagina = pagina ? JSON.parse(pagina) : "Home";
+        }
+        return this.pagina;
+    }
+
+    static async setPagina(pagina) {
+        this.pagina = pagina;
+        await AsyncStorage.setItem('pagina', JSON.stringify(pagina));
+    }
+
+    static async getParametri() {
+        if (this.parametri == null) {
+            let parametri = await AsyncStorage.getItem('parametri');
+            this.parametri = parametri ? JSON.parse(parametri) : null;
+        }
+        return this.parametri;
+    }
+
+    static async setParametri(parametri) {
+        this.parametri = parametri;
+        await AsyncStorage.setItem('parametri', JSON.stringify(parametri));
+    }
 
     static async getSid() {
         if (this.sid != null) {

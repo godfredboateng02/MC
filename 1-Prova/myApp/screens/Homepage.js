@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { fetchMenu } from '../viewmodel/MenuViewModel';
 import { useNavigation } from '@react-navigation/native';
 import gestioneMenu from '../viewmodel/gestioneMenu';
+import DeliveryElement from '../components/DeliveryElement';
 
 export default function HomeScreen(){
 
@@ -68,6 +69,10 @@ export default function HomeScreen(){
                 </TouchableOpacity>
             </View> 
             <MenuListView menu={menuList} onCardPress={handleCardPress}/>
+
+            <View style={styles.delivery}>
+                <DeliveryElement />
+            </View>
         </View>
     );
 }
@@ -98,5 +103,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         color: "#000",
-    }
+    },
+    delivery: {
+        position: 'absolute',
+        bottom: 50,
+        right: 20,
+        zIndex: 100,
+    },
 })

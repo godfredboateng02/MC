@@ -14,7 +14,7 @@ export default function MenuDetail() {
 
     const [menuDetail, setMenuDetail] = useState(null);
     const [Carta, setCarta] = useState(1)
-    const [ordineInCorso, setOrdineInCorso] = useState()
+    const [ordineInCorso, setOrdineInCorso] = useState(false)
     const [buttonText, setButtonText] = useState("") //testo del bottone
     const [buttonAction, setButtonAction] = useState() //funzione da eseguire
     const [shouldRenderAgain, setShouldRenderAgain] = useState(false);
@@ -150,7 +150,7 @@ export default function MenuDetail() {
     const onBuy = () => {
         gestioneOrdini.effettuaOrdine(menuId).then(() => {
                 console.log("Ordine effettuato");
-                navigation.goBack();
+                navigate("Home");
         }).catch((error) => {
             console.log("Errore da onBuy:", error)
         });

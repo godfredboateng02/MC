@@ -9,6 +9,16 @@ export default class gestioneOrdini{
     static async consegnaInCorso(){
         let consegna = await storage.inConsegna()
         return consegna
+        /*let ordine = undefined
+        try {
+            ordine = await CommunicationController.getUserInfo()
+        } catch (error) {
+            return error 
+        }
+        if (ordine.orderStatus !== "ON_DELIVERY"){
+            return false
+        }
+        return true*/
     }
 
     static async effettuaOrdine(mid){

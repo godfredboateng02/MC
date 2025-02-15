@@ -80,14 +80,14 @@ export default class gestioneOrdini{
         
         risposta.Partenza = await storage.getRistorante();
         risposta.Destinazione = raw.deliveryLocation;
-        risposta.Drone = raw.curretPosition;
+        risposta.Drone = raw.currentPosition;
         console.log("pre-risposta",risposta)
         if (raw.status === "ON_DELIVERY"){
             risposta.Tempo = formattazione.tempoRimanente(raw.expectedDeliveryTimestamp);
         }else{
             await storage.setConsegna(false)
             risposta.Tempo = null;
-            risposta.Consegnato = formattazione.extractTime(raw.deliveryTimestamp);
+            risposta.Consegna = formattazione.extractTime(raw.deliveryTimestamp);
         }
         console.log("risposta",risposta)
         return risposta;

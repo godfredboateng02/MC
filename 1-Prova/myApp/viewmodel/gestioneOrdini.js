@@ -28,6 +28,7 @@ export default class gestioneOrdini{
         //console.log(ordine.curretPosition)
         await storage.setRistorante(mid)
         await storage.setOid(ordine.oid)
+        console.log("oid da ordine effettuato: ",ordine.oid)
         await storage.setMid(mid)
     }
 

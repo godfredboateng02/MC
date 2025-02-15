@@ -112,7 +112,7 @@ export default function Profile() {
 
 
     //---------------------- SIMULAZIONE CHIAMATA PER DATA E ORA ULTIMO ORDINE -------------------------------
-    const [lastOrderMenuTime, setLastOrderMenuTime] = useState()
+    const [lastOrderMenuTime, setLastOrderMenuTime] = useState("tempo")
 
     //Simulazione dei dati ricevuti dalla rete
     /*const dataTempo = {
@@ -193,7 +193,10 @@ export default function Profile() {
             </View>
             
 
-            {lastOrderMenuTime?.risposta && (<Text style={styles.ora}>{lastOrderMenuTime.risposta}</Text>)}
+
+            <Text style={styles.ora}>
+                {lastOrderMenuTime ? lastOrderMenuTime.Data+" "+lastOrderMenuTime.Ora : 'Caricamento...'}
+            </Text>
 
             <View style={styles.lastOrderContainer}>
                 <LastOrderView />

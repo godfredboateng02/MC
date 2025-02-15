@@ -65,11 +65,26 @@ export default class gestioneAccount {
 
 
     static async lastOrderTime(){
-        let oid = await storage.getOid();
+        console.log("entrato in lastOrderTime")
+        let oid = undefined
+        try{
+            oid = await storage.getOid();
+            console.log("oid da storage",oid)
+            if (oid == null){
+                return null;
+            }
+        }catch(error){
+            console.log("errore da lastOrderTime interno",error)
+        }
+        /*let oid = await storage.getOid();
+        console.log("oid:-<-<",oid)
         if (oid == null){
             return null;
-        }
+        }*/
         let risposta = await CommunicationController.getOrderStatus(oid);
-        return formattazione.extractTime(risposta.creationTimestamp);
+        console.log("risposta->",risposta)
+        let qualcosa = formattazione.extractTime(risposta.creationTimestamp)
+        console.log("qualcosa: ", qualcosa );
+        return qualcosa;
     }
 }

@@ -148,9 +148,9 @@ export default function MenuDetail() {
     }*/
 
     const onBuy = () => {
-        gestioneOrdini.effettuaOrdine(menuId).then(() => {
+        gestioneOrdini.effettuaOrdine(menuId).then((risultato) => {
                 console.log("Ordine effettuato");
-                navigate("Home");
+                navigate("Delivery",{risultato: risultato});
         }).catch((error) => {
             console.log("Errore da onBuy:", error)
         });

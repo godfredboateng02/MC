@@ -28,8 +28,9 @@ export default class gestioneOrdini{
         //console.log(ordine.curretPosition)
         await storage.setRistorante(mid)
         await storage.setOid(ordine.oid)
-        console.log("oid da ordine effettuato: ",ordine.oid)
         await storage.setMid(mid)
+        let stato = await this.orderStatus()
+        return stato
     }
 
     static async lastOrderMenu(){
@@ -66,8 +67,8 @@ export default class gestioneOrdini{
         let raw = undefined
         try {
             console.log("NON in PRE orderstatus",oid)
-             raw = await CommunicationController.getOrderStatus(8444)
-             console.log("NON in POST orderstatus")
+            raw = await CommunicationController.getOrderStatus(oid)
+            console.log("NON in POST orderstatus",raw)
         } catch (error) {
             console.log("errore in orderstatus",error)
         }

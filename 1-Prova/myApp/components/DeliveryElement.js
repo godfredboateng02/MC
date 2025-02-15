@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { navigate } from '../NavigationService';
+import { useNavigation } from '@react-navigation/native';
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
 export default function DeliveryElement() {
+    
+
+
     return (
         <TouchableOpacity
             style={styles.circle}
-            onPress={() => navigate("Delivery")}
+            onPress={() => gestioneOrdini.orderStatus().then((risultato)=>navigate("Delivery",{risultato: risultato}))}
             activeOpacity={0.7}
         >
             <Text style={styles.text}>🚚</Text>

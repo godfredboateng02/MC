@@ -163,7 +163,6 @@ export default function MenuDetail() {
             setError("inserisci una carta valida").then(()=>{
                 navigate("MenuDetail",{menuId: menuId})
             })
-            Storage.setConsegnainCorso(false)
         });
     };
 

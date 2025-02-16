@@ -29,6 +29,7 @@ export default function HomeScreen(){
     useEffect(() => {
         const checkConsegnaInCorso = async () => {
             const risultato = await gestioneOrdini.consegnaInCorso();
+            console.log("Consegna",risultato)
             setConsegnaInCorso(risultato); // Imposta lo stato in base alla risposta
         };
 

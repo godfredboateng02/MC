@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         //right: -30,
         top: 5,
-        marginHorizontal: auto,
+        marginHorizontal: "auto",
     },
     lightText: {
         fontWeight: "300",

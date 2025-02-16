@@ -2,52 +2,38 @@ import { Text, View, StyleSheet, Button, ImageComponent, TouchableOpacity, Image
 import { navigate } from '../NavigationService'
 import MenuListView from '../components/MenuListView';
 import { useEffect, useState } from 'react';
-import { fetchMenu } from '../viewmodel/MenuViewModel';
 import { useNavigation } from '@react-navigation/native';
 import gestioneMenu from '../viewmodel/gestioneMenu';
 import DeliveryElement from '../components/DeliveryElement';
+import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
 export default function HomeScreen(){
 
     const navigation = useNavigation();
 
-    //questa è una funzione asincrona e quindi deve essere gestita in un altro modo
     const [cardPressed, setCardPressed] = useState()
-    //const [menuList, setMenuList] = useState();
 
-    /*
-    nomeChiamata:
-    DALLA VIEWMODEL ->
-    mi serve una chiamata di rete che mi restituisca tutti i menu con
-        - Nome del piatto
-        - DescrizioneCorta del piatto
-        - 
-    */
-
-    /*useEffect(() => {
-        CommunicationController.getMenus().then((menuList1) => {
-            setMenuList(menuList1);
-            console.log('dati caricati');
-        }).catch((error)=>{
-            console.log("errore:",error)
-        })
-    }, []);*/
-
-    /*useEffect(()=>{
-        fetchMenu().then((menus)=>{
-            setMenuList(menus)
-            console.log("menu preso...")
-        })
-    },[])*/
 
     const [menuList, setMenuList] = useState()
 
+    const [consegnaInCorso, setConsegnaInCorso] = useState(false); // Stato per la consegna in corso
+
+
     useEffect(()=>{
         gestioneMenu.lista().then((risposta)=>{
-            //console.log("(useEffect) menu",risposta)
+            
             setMenuList(risposta)
         })
     },[])
+
+    useEffect(() => {
+        const checkConsegnaInCorso = async () => {
+            const risultato = await gestioneOrdini.consegnaInCorso();
+            setConsegnaInCorso(risultato); // Imposta lo stato in base alla risposta
+        };
+
+        checkConsegnaInCorso();
+    }, []);
 
     const handleCardPress = (mid) => {
         console.log("card premuta", mid)
@@ -62,7 +48,7 @@ export default function HomeScreen(){
                 <Text style={styles.position}></Text>
                 <TouchableOpacity onPress={() => navigate("Profile")}>
                     <Image 
-                        source={require('../assets/Logo.png')} // Sostituisci con il tuo logo
+                        source={require('../assets/Logo.png')}
                         style={styles.logo}
                         resizeMode="contain"
                     />
@@ -70,9 +56,11 @@ export default function HomeScreen(){
             </View> 
             <MenuListView menu={menuList} onCardPress={handleCardPress}/>
 
-            <View style={styles.delivery}>
-                <DeliveryElement />
-            </View>
+            {consegnaInCorso && (
+                <View style={styles.delivery}>
+                    <DeliveryElement />
+                </View>
+            )}
         </View>
     );
 }

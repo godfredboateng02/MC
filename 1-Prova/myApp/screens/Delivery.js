@@ -62,6 +62,7 @@ export default function Delivery() {
     const [drone, setDrone] = useState({latitude: risultato.Partenza.lat, longitude: risultato.Partenza.lng})
     const [stato, setStato] = useState()
     const [tempo, setTempo] = useState()
+    const [output, setOutput] = useState("Elaborazione ordine...")
     const [consegna, setConsegna] = useState()
     const [finito, setFinito] = useState(false)     
     const [loading, setLoading] = useState(true); // Stato di caricamento
@@ -76,6 +77,11 @@ export default function Delivery() {
             let obj = {latitude: risposta.Drone.lat, longitude: risposta.Drone.lng}
             setDrone(obj)
             setStato(risposta.Stato)
+            if(risposta.Stato == "COMPLETED"){
+                setOutput("consegnato alle: "+risposta.Tempo.Ora+" del "+risposta.Tempo.Data)
+            }else{
+                setOutput("in consegna tra: "+risposta.Tempo+" minuti")
+            }
         }).catch((error)=>{
             console.log("errore da orderstatus delivery",error)
         })
@@ -157,7 +163,7 @@ export default function Delivery() {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerDescrizione}>
-                    <Text style={styles.statoConsegna}>Stato della consegna</Text>
+                    <Text style={styles.statoConsegna}>{output}</Text>
                     <LastOrderView />
 
                     {finito && <TouchableOpacity style={styles.buyButton} onPress={()=>{

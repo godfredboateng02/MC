@@ -85,8 +85,7 @@ export default class gestioneOrdini{
         if (raw.status === "ON_DELIVERY"){
             risposta.Tempo = formattazione.tempoRimanente(raw.expectedDeliveryTimestamp);
         }else{
-            risposta.Tempo = null;
-            risposta.Consegna = formattazione.extractTime(raw.deliveryTimestamp);
+            risposta.Tempo = formattazione.extractTime(raw.deliveryTimestamp);
         }
         console.log("risposta",risposta)
         return risposta;

@@ -46,7 +46,7 @@ export default function EditProfileCard(){
         // 1) Nome non vuoto
         if (cardFullName.trim().length === 0) return false;
         // 2) Numero carta: 16 cifre e inizia con 1
-        if (!/^1\d{15}$/.test(rawNumber)) return false;
+        if (!/^\d{16}$/.test(rawNumber)) return false;
         // 3) Mese valido
         const monthNum = parseInt(cardExpireMonth, 10);
         if (!monthNum || monthNum < 1 || monthNum > 12) return false;
@@ -64,7 +64,7 @@ export default function EditProfileCard(){
         const rawNumber = cardNumber.replace(/\s/g, '');
         if (!rawNumber) return "";
         if (!/^1\d{15}$/.test(rawNumber)) {
-            return "Il numero deve essere di 16 cifre e iniziare con '1'.";
+            return "Il numero deve essere di 16 cifre.";
         }
         return "";
     };

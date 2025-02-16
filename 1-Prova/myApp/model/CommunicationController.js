@@ -48,7 +48,7 @@ export default class CommunicationController {
       } else {
         // The server responded with an error status.
         const errorObject = await httpResponse.json();
-        console.error("Error message from the server:", errorObject);
+        console.log("Error message from the server:", errorObject);
         throw errorObject;
       }
     }
@@ -115,9 +115,14 @@ export default class CommunicationController {
       let lng = await location.getLng(true)
       console.log("lat e lng da postOrder",lat,lng)
       let bodyParams = {sid: await storage.getSid(), deliveryLocation: {lat: lat, lng: lng}}
-      let risposta = await this.genericRequest(endpoint, "POST", queryParams, bodyParams)
-      return risposta
+      try{
+        let risposta = await this.genericRequest(endpoint, "POST", queryParams, bodyParams)
+        return risposta}
+      catch(error){
+        console.log("errore in postOrder",error)
+      }
     }
+
     static async getOrderStatus(oid){
       let endpoint = "order/" + oid
       console.log("end->->->",endpoint) 

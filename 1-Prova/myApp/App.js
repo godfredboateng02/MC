@@ -12,6 +12,7 @@ import LoadScreen from "./screens/LoadScreen";
 import Prova from "./screens/Prova";
 import FirstScreen from "./screens/FirstScreen";
 
+
 const Stack = createStackNavigator();
 
 export default function App() {

@@ -6,8 +6,11 @@ import gestioneMenu from '../viewmodel/gestioneMenu';
 import gestioneOrdini from '../viewmodel/gestioneOrdini';
 import gestioneAccount from '../viewmodel/gestioneAccount';
 import { navigate } from '../NavigationService';
+import ErrorDialog from '../components/ErrorDialog';
 
 export default function MenuDetail() {
+    const [error, setError] = useState(null); // Stato per gestire l'errore
+
     const navigation = useNavigation();
     const route = useRoute();
     const { menuId } = route.params;
@@ -146,13 +149,21 @@ export default function MenuDetail() {
             </View>
         );
     }*/
+    const handleErrorConfirm = () => {
+        console.log("Eseguo azione dopo l'errore...");
+        // Esempio: Naviga a un'altra schermata
+          navigation.navigate("EditProfileCard");
+        };
 
     const onBuy = () => {
         gestioneOrdini.effettuaOrdine(menuId).then((risultato) => {
                 console.log("Ordine effettuato");
                 navigate("Delivery",{risultato: risultato});
         }).catch((error) => {
-            console.log("Errore da onBuy:", error)
+            setError("inserisci una carta valida").then(()=>{
+                navigate("MenuDetail",{menuId: menuId})
+            })
+            Storage.setConsegnainCorso(false)
         });
     };
 
@@ -200,6 +211,12 @@ export default function MenuDetail() {
                     <Text style={styles.confirmText}>{buttonText}</Text>
                 </TouchableOpacity>
             </View>
+            <ErrorDialog
+                isVisible={!!error} // Mostra il dialogo solo se `error` non è null
+                message={error}
+                onClose={() => setError(null)} // Chiude il dialogo
+                onConfirm={handleErrorConfirm} // Azione personalizzata
+            />
         </View>
     );
 }

@@ -43,20 +43,22 @@ export default function FirstScreen(){
             {/* FORM */}
             <View style={styles.formContainer}>
                 <Text style={styles.label}>Cognome</Text>
-                <TextInput
-                    style={styles.input}
-                    value={lastName}
-                    onChangeText={setLastName}
-                    //placeholder='es. Rossi'
-                />
-
-            <Text style={styles.label}>Nome</Text>
-                <TextInput
-                    style={styles.input}
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    //placeholder='es. Matteo'
-                />  
+                    <TextInput
+                        style={styles.input}
+                        value={lastName}
+                        onChangeText={setLastName}
+                        maxLength={15}
+                        placeholder='es. Rossi'
+                    />
+    
+                <Text style={styles.label}>Nome</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        maxLength={15}
+                        placeholder='es. Matteo'
+                    />  
 
                 {/* BOTTONE CONFERMA */}
                 <TouchableOpacity style={styles.confirmButton} onPress={() => onEdit({Cognome: lastName, Nome: firstName})}>
@@ -93,8 +95,9 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 18,
         color: "#fff",
-        right: -30,
-        top: 5
+        //right: -30,
+        top: 5,
+        marginHorizontal: auto,
     },
     lightText: {
         fontWeight: "300",

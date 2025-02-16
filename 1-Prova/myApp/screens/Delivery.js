@@ -122,8 +122,8 @@ export default function Delivery() {
                     <MapView
                         style={styles.map}
                         initialRegion={{
-                            latitude: 45.583, // Centro tra Milano e Torino
-                            longitude: 9.19,
+                            latitude: partenza.latitude, // Centro tra Milano e Torino
+                            longitude: partenza.longitude,
                             latitudeDelta: 0.3, // Zoom ampio per vedere entrambi i punti
                             longitudeDelta: 0.3,
                         }}

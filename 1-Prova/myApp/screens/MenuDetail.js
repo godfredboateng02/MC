@@ -229,8 +229,8 @@ const styles = StyleSheet.create({
     detailContainer: {
         flex: 1,
         backgroundColor: "#fff",
-        borderTopLeftRadius: 60,
-        borderTopRightRadius: 60,
+        //borderTopLeftRadius: 60,
+        //borderTopRightRadius: 60,
         padding: 20,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: -3 },

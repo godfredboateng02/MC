@@ -52,7 +52,7 @@ export default function EditProfileCard(){
         if (!monthNum || monthNum < 1 || monthNum > 12) return false;
         // 4) Anno 4 cifre >= 2000 (esempio)
         if (!/^\d{4}$/.test(cardExpireYear)) return false;
-        if (parseInt(cardExpireYear, 10) < 2000) return false;
+        if (parseInt(cardExpireYear, 10) < 2025) return false;
         // 5) CVV: 3 cifre
         if (!/^\d{3}$/.test(cardCVV)) return false;
 
@@ -92,6 +92,7 @@ export default function EditProfileCard(){
                     value={cardFullName}
                     onChangeText={(text) => setCardFullName(text)}
                     placeholder='es. Mario Rossi'
+                    maxLength={31}
                 />
 
                 <Text style={styles.label}>Card Number</Text>
@@ -101,6 +102,7 @@ export default function EditProfileCard(){
                     value={cardNumber}
                     onChangeText={handleCardNumberChange}
                     placeholder="XXXX XXXX XXXX XXXX"
+                    maxLength={19}
                 />
                 {/* Errore sul numero di carta */}
                 {cardNumberErrorMessage ? (

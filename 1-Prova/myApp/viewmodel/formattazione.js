@@ -1,12 +1,17 @@
 export default class formattazione {
-    static extractTime(stringa){
-        let stringhe = stringa.split("T");
-        let dataRaw = stringhe[0].split("-");
-        let data = dataRaw[2] + "/" + dataRaw[1] + "/" + dataRaw[0];
-        let oraRaw = stringhe[1].split(":")[0];
-        let ora = oraRaw[0] + ":" + oraRaw[1];
-        return {Data : data, Ora : ora};
-    }
+    static extractTime(stringa) {
+        const date = new Date(stringa);
+      
+        // Formatta la data
+        const dataOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const dataFormattata = new Intl.DateTimeFormat('it-IT', dataOptions).format(date);
+      
+        // Formatta l'ora
+        const oraOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+        const oraFormattata = new Intl.DateTimeFormat('it-IT', oraOptions).format(date);
+      
+        return { Data: dataFormattata, Ora: oraFormattata };
+      }
 
 
     static showImage(image){

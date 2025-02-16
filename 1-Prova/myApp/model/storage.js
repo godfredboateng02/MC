@@ -15,7 +15,7 @@ export default class Storage {
     static async getPagina() {
         if (this.pagina == null) {
             let pagina = await AsyncStorage.getItem('pagina');
-            this.pagina = pagina ? JSON.parse(pagina) : "Home";
+            this.pagina = pagina ? JSON.parse(pagina) : "FirstScreen";
         }
         return this.pagina;
     }

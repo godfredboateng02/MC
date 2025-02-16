@@ -155,13 +155,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         width: '100%',
-        height: '30%',
+        height: '33%',
         borderTopLeftRadius: 50 ,
         borderTopRightRadius: 50,
         backgroundColor: 'rgb(255, 255, 255)',
         bottom: 0,
-        paddingTop: 10,
-        paddingBottom: 80
+        paddingTop: 15,
+        paddingBottom: 15
         
         /*shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: "center",
         justifyContent: 'center',
+        //marginBottom: 50
         //marginTop: 10,
     },
     confirmText: {

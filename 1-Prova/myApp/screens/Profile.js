@@ -199,7 +199,21 @@ export default function Profile() {
             </Text>
 
             <View style={styles.lastOrderContainer}>
-                <LastOrderView />
+                <TouchableOpacity style={styles.touchableOrderConteiner} onPress={() => 
+                    {try{
+                        Storage.getMid().then((mid)=>{
+                            if(mid){
+                                navigate("MenuDetail",{ menuId: mid })
+                            }else{
+                                console.log("nessun ordine recente")
+                            }
+                        })
+                    }catch(error){
+                            console.log("errore ultimo ordine",error)
+                    }
+                        }}>
+                    <LastOrderView />
+                </TouchableOpacity> 
             </View>
 
         </View>
@@ -283,5 +297,16 @@ const styles = StyleSheet.create({
     editProfile: {
         color: "#FFF",
         fontWeight: 'semibold',
+    },
+
+    touchableOrderConteiner: {
+        width: '100%',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 5,
     }
+
+    
 });

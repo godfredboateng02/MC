@@ -92,4 +92,9 @@ export default class gestioneOrdini{
         console.log("risposta",risposta)
         return risposta;
     }
+
+
+    static async confermaConsegna(){
+        await storage.setConsegna(false)
+    }
 }

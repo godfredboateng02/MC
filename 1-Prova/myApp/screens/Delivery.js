@@ -65,6 +65,7 @@ export default function Delivery() {
     const [stato, setStato] = useState()
     const [tempo, setTempo] = useState()
     const [consegna, setConsegna] = useState()
+    const [finito, setFinito] = useState(false)
 
     /*return (
         <View style={styles.container}>
@@ -117,6 +118,7 @@ export default function Delivery() {
             console.log("risposta",risposta)
             let obj = {latitude: risposta.Drone.lat, longitude: risposta.Drone.lng}
             setDrone(obj)
+            setStato(risposta.Stato)
         }).catch((error)=>{
             console.log("errore da orderstatus delivery",error)
         })
@@ -129,6 +131,14 @@ export default function Delivery() {
 
   // useEffect per ricaricare i dati ogni 5 secondi
     useEffect(() => {
+        if (finito){
+            return;
+        }
+        if (stato == "COMPLETED"){
+            setFinito(true)
+            return;
+        }
+
         aggiornaStato(); // Prima chiamata all'avvio
 
         const interval = setInterval(() => {
@@ -190,12 +200,13 @@ export default function Delivery() {
                 <View style={styles.containerDescrizione}>
                     <Text style={styles.statoConsegna}>Stato della consegna</Text>
                     <LastOrderView />
-                    <TouchableOpacity style={styles.buyButton} onPress={()=>{
-                        console.log("bottone premuto");
+
+                    {finito && <TouchableOpacity style={styles.buyButton} onPress={()=>{
+                        gestioneOrdini.confermaConsegna();
                         
                     }}>
                         <Text style={styles.confirmText}>Conferma ricezione</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
             </View>
         )

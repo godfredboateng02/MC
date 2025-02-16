@@ -14,7 +14,7 @@ export default class gestioneMenu {
                 Nome: element.name,
                 Descrizione: element.shortDescription,
                 Prezzo: parseFloat(element.price).toFixed(2),
-                Tempo: element.deliveryTime,
+                Tempo: (element.deliveryTime == 0)? 1: element.deliveryTime,
                 Immagine:  i
             })
         };
@@ -28,7 +28,7 @@ export default class gestioneMenu {
         risposta.Nome = raw.name;
         risposta.Prezzo = parseFloat(raw.price).toFixed(2),
         risposta.Descrizione = raw.longDescription;
-        risposta.Tempo = raw.deliveryTime;
+        risposta.Tempo = (raw.deliveryTime == 0)? 1: raw.deliveryTime;
         risposta.Immagine = await Storage.getImage(mid, raw.imageVersion);
         return risposta;
     }

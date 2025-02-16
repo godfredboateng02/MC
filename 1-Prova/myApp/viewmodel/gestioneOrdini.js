@@ -22,9 +22,16 @@ export default class gestioneOrdini{
     }
 
     static async effettuaOrdine(mid){
-        console.log("Acquisto effettuato");
-        let ordine = await CommunicationController.postOrder(mid)
         await storage.setConsegna(true)
+        console.log("Acquisto effettuato");
+        let ordine = undefined
+        try{
+            ordine = await CommunicationController.postOrder(mid)
+        }catch(error){
+            console.log("errore in effettuaOrdine",error)
+            await storage.setConsegna(false)
+        }
+        
         //console.log(ordine.curretPosition)
         await storage.setRistorante(mid)
         await storage.setOid(ordine.oid)

@@ -160,7 +160,9 @@ export default function MenuDetail() {
         navigate("EditProfileCard")
     }
 
-    const onDelivery = () => { gestioneOrdini.orderStatus().then((risultato)=>navigate("Delivery",{risultato: risultato}))}
+    const onDelivery = () => { 
+        navigate("Home")
+        gestioneOrdini.orderStatus().then((risultato)=>navigate("Delivery",{risultato: risultato}))}
     
 
     const onPress2 = () => {

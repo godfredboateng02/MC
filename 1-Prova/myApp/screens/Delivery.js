@@ -78,9 +78,15 @@ export default function Delivery() {
             setDrone(obj)
             setStato(risposta.Stato)
             if(risposta.Stato == "COMPLETED"){
-                setOutput("consegnato alle: "+risposta.Tempo.Ora+" del "+risposta.Tempo.Data)
+                setOutput(<Text>
+                    <Text style={{ color: '#FF7300' , fontWeight: '500'}}>Consegnato alle: {risposta.Tempo.Ora} del {risposta.Tempo.Data}</Text> 
+                    {' '}
+                  </Text>)
             }else{
-                setOutput("in consegna tra: "+risposta.Tempo+" minuti")
+                setOutput(<Text>
+                    In consegna tra: <Text style={{ color: '#FF7300', fontWeight: '500' }}>{risposta.Tempo} minuti</Text> 
+                    {' '}
+                  </Text>)
             }
         }).catch((error)=>{
             console.log("errore da orderstatus delivery",error)
@@ -194,8 +200,10 @@ const styles = StyleSheet.create({
         height: '30%',
         borderTopLeftRadius: 50 ,
         borderTopRightRadius: 50,
-        backgroundColor: 'rgba(255, 255, 255, 0.88)',
+        backgroundColor: 'rgb(255, 255, 255)',
         bottom: 0,
+        paddingTop: 10,
+        paddingBottom: 20
         /*shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
@@ -226,27 +234,31 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        backgroundColor: 'rgba(255, 255, 255, 0.83)',
+        backgroundColor: 'rgba(255, 255, 255, 0.91)',
         alignItems:'center',
         //justifyContent: 'center'
     },
     backText: {
         fontSize: 30,
-        color: "#FFC800",
+        color: "#FF7300",
         fontWeight: "bold",
+        //margin: 'auto'
     },
     statoConsegna:{
-        color: '#',
+        color: '#878787',
         fontSize: 20,
-        marginTop: 22,
+        marginTop: 12,
         marginBottom: 10,
-    },buyButton: {
+        fontWeight: '500'
+    },
+    buyButton: {
         height: 50,
         width: "90%",
         backgroundColor: "#FF8C00",
         borderRadius: 30,
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 10,
     },
     confirmText: {
         fontSize: 20,

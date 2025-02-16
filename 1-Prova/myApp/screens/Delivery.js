@@ -42,7 +42,7 @@ export default function Delivery() {
                   </Text>)
             }else{
                 setOutput(<Text>
-                    In consegna tra: <Text style={{ color: '#FF7300', fontWeight: '500' }}>{risposta.Tempo} minuti</Text> 
+                    In consegna tra: <Text style={{ color: '#FF7300', fontWeight: '500' }}>{risposta.Tempo} min</Text> 
                     {' '}
                   </Text>)
             }

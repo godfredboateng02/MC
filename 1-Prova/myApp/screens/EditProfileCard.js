@@ -1,90 +1,81 @@
-import {Text, View, StyleSheet, TouchableOpacity, TextInput, Button} from 'react-native'
-import {useState , useEffect} from 'react'
-import { useRoute } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import {Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
+import {useState} from 'react'
+import {useRoute, useNavigation} from '@react-navigation/native';
 import gestioneAccount from '../viewmodel/gestioneAccount';
 import { navigate } from '../NavigationService';
 
 export default function EditProfileCard(){
 
     const navigation = useNavigation();
-
-    //TO-DO: 
     const route = useRoute();
     const { datiCarta } = route.params || {};
 
-    const [cardFullName, setCardFullName] = useState("")
-    const [cardNumber, setCardNumber] = useState("")
-    const [cardExpireMonth, setCardExpireMonth] = useState("")
-    const [cardExpireYear, setCardExpireYear] = useState("")
-    const [cardCVV, setCardCVV] = useState("")
+    const [cardFullName, setCardFullName] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [cardExpireMonth, setCardExpireMonth] = useState("");
+    const [cardExpireYear, setCardExpireYear] = useState("");
+    const [cardCVV, setCardCVV] = useState("");
 
-    //TO-DO: (VIEWMODEL) mi serve una chiamata personalizzata per la modifica solamente dei dati della carta e non del nome e cognome
-    //nomeChiamata: updateUserName({Nome: " ", Cognome:" "})
-    /*useEffect(()=>{
-        setCardFullName(datiCarta.cardFullName)
-        setCardNumber(datiCarta.cardNumber)
-        setCardExpireMonth(datiCarta.cardExpireMonth)
-        setCardExpireYear(datiCarta.cardExpireYear)
-        setCardCVV(datiCarta.cardCVV)
-    },[])*/
+    const [cardNumberError, setCardNumberError] = useState("");
 
-    const onEdit = (card) =>{
-        //console.log("onEdit",card)
-        gestioneAccount.updateUserCard(card).then(()=>{
-            console.log("aggiornato dati carta")
-            navigate("Profile")
-        }).catch((error)=>{
-            console.log("errore aggiornamento dati",error)
+    // Funzione per aggiornare i dati
+    const onEdit = (card) => {
+        gestioneAccount.updateUserCard(card)
+        .then(() => {
+            console.log("aggiornato dati carta");
+            navigate("Profile");
         })
-    }
+        .catch((error) => {
+            console.log("errore aggiornamento dati",error);
+        });
+    };
 
-    // Funzione per gestire il cambiamento del numero di carta e inserire spazi
+    // Formatta il numero di carta con spazi ogni 4 cifre (per comodità nella digitazione)
     const handleCardNumberChange = (text) => {
-        let cleaned = text.replace(/\D/g, '').substring(0, 16); // Rimuove tutto tranne numeri e limita a 16 cifre
-        let formatted = cleaned.replace(/(\d{4})/g, '$1 ').trim(); // Aggiunge spazio ogni 4 cifre
+        // Rimuove tutto tranne numeri e limita a 16 cifre
+        let cleaned = text.replace(/\D/g, '').substring(0, 16); 
+        // Aggiunge spazio ogni 4 cifre
+        let formatted = cleaned.replace(/(\d{4})/g, '$1 ').trim();
         setCardNumber(formatted);
-        console.log(formatted)
     };
 
+    // Semplice validazione
     const isValid = () => {
-        return (
-            cardFullName.length > 0 && cardFullName.length <= 31 &&
-            /^[0-9]{16}$/.test(cardNumber.replace(/\s/g, '')) &&
-            /^[1-9]$|^1[0-2]$/.test(cardExpireMonth) &&
-            /^[2-9][0-9]{3}$/.test(cardExpireYear) && cardExpireYear >= 2000 &&
-            /^[0-9]{3}$/.test(cardCVV)
-        );
+        const rawNumber = cardNumber.replace(/\s/g, '');
+
+        // 1) Nome non vuoto
+        if (cardFullName.trim().length === 0) return false;
+        // 2) Numero carta: 16 cifre e inizia con 1
+        if (!/^1\d{15}$/.test(rawNumber)) return false;
+        // 3) Mese valido
+        const monthNum = parseInt(cardExpireMonth, 10);
+        if (!monthNum || monthNum < 1 || monthNum > 12) return false;
+        // 4) Anno 4 cifre >= 2000 (esempio)
+        if (!/^\d{4}$/.test(cardExpireYear)) return false;
+        if (parseInt(cardExpireYear, 10) < 2000) return false;
+        // 5) CVV: 3 cifre
+        if (!/^\d{3}$/.test(cardCVV)) return false;
+
+        return true;
     };
 
-    /*
-    TO-DO: (VIEW) posso usarla solamente dopo aver effettuato la chiamata di rete alla viewModel, per modificare i dati della carta
-    //nomeChiamata: updateUserCard({Titolare: " ", Numero:" ", Mese: " ", Anno: " ", Cvv:" "})
-    useEffect(()=>{
-        fetchData(41719).then((result)=>{
-            setLastName(result.lastName)
-            setFirstName(result.firstName)
-            setCardFullName(result.cardFullName)
-            setCardNumber(result.cardNumber)
-            setCardExpireMonth(result.cardExpireMonth)
-            setCardExpireYear(result.cardExpireYear)
-            setCardCVV(result.cardCVV)
-        }).then((error)=>{
-            console.log(error)
-        })
-    },[])
+    // Eventuale messaggio di errore se il numero non è valido
+    const getCardNumberError = () => {
+        const rawNumber = cardNumber.replace(/\s/g, '');
+        if (!rawNumber) return "";
+        if (!/^1\d{15}$/.test(rawNumber)) {
+            return "Il numero deve essere di 16 cifre e iniziare con '1'.";
+        }
+        return "";
+    };
 
-    */
-
-    //FUNZIONE PER VALIDARE I PROPRI DATI INSERITI
-
-
+    const cardNumberErrorMessage = getCardNumberError();
 
     return (
         <View style={styles.container}>
             {/* HEADER ARANCIONE */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => navigate("Profile")} style={styles.backButton}>
                     <Text style={styles.backText}>←</Text>
                 </TouchableOpacity>
 
@@ -99,7 +90,7 @@ export default function EditProfileCard(){
                 <TextInput
                     style={styles.input}
                     value={cardFullName}
-                    onChangeText={(text) => text.length <= 31 && setCardFullName(text)}
+                    onChangeText={(text) => setCardFullName(text)}
                     placeholder='es. Mario Rossi'
                 />
 
@@ -108,10 +99,13 @@ export default function EditProfileCard(){
                     style={styles.input}
                     keyboardType="numeric"
                     value={cardNumber}
-                    onChangeText={setCardNumber}
+                    onChangeText={handleCardNumberChange}
                     placeholder="XXXX XXXX XXXX XXXX"
-                    maxLength={16} //aggiunge i 3 spazi tra i numeri per migliorare lettura
                 />
+                {/* Errore sul numero di carta */}
+                {cardNumberErrorMessage ? (
+                  <Text style={styles.errorText}>{cardNumberErrorMessage}</Text>
+                ) : null}
 
                 {/* EXPIRE DATE & CVV */}
                 <View style={styles.row}>
@@ -151,11 +145,31 @@ export default function EditProfileCard(){
                 </View>
 
                 {/* BOTTONE CONFERMA */}
-                <TouchableOpacity style={styles.confirmButton} onPress={() => onEdit({Carta: {Titolare: cardFullName, Numero: cardNumber, Mese: cardExpireMonth, Anno: cardExpireYear, Cvv: cardCVV}})}>
+                <TouchableOpacity
+                    style={[
+                      styles.confirmButton,
+                      { opacity: isValid() ? 1 : 0.5 }
+                    ]}
+                    disabled={!isValid()}
+                    onPress={() => {
+                        // 1) Rimuoviamo gli spazi
+                        const rawNumber = cardNumber.replace(/\s/g, '');
+
+                        // 2) Passiamo al nostro onEdit
+                        onEdit({
+                            Carta: {
+                                Titolare: cardFullName,
+                                Numero: rawNumber, // <--- Qui niente spazi
+                                Mese: cardExpireMonth,
+                                Anno: cardExpireYear,
+                                Cvv: cardCVV
+                            }
+                        });
+                    }}
+                >
                     <Text style={styles.confirmText}>Conferma le modifiche</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
     );
 }
@@ -170,10 +184,8 @@ const styles = StyleSheet.create({
         height: 100,
         position: 'relative',
         flexDirection: "row",
-        //justifyContent: 'center',
         paddingTop: 60,
         paddingHorizontal: 16,
-
     },
     backButton: {
         marginRight: 10,
@@ -201,7 +213,6 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        fontWeight: "light",
         marginBottom: 5,
         color: '#555555'
     },
@@ -213,8 +224,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         borderRadius: 5,
         fontSize: 16,
-        marginBottom: 20,
+        marginBottom: 10,
         color: '#888888'
+    },
+    errorText: {
+      color: 'red',
+      marginBottom: 10,
+      fontSize: 14,
     },
     row: {
         flexDirection: "row",
@@ -239,7 +255,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         borderRadius: 25,
         alignItems: "center",
-        marginTop: 20,
+        marginTop: 30,
     },
     confirmText: {
         color: "#fff",

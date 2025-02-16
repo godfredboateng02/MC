@@ -1,6 +1,13 @@
 import CommunicationController from "../model/CommunicationController";
 import storage from "../model/storage";
 import formattazione from "./formattazione";
+import dayjs from "dayjs";
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import 'dayjs/locale/it'
+
+dayjs.extend(localizedFormat)
+dayjs.locale('it')
+
 
 export default class gestioneAccount {
 
@@ -83,6 +90,11 @@ export default class gestioneAccount {
         console.log("risposta->",risposta)
         let qualcosa = formattazione.extractTime(risposta.creationTimestamp)
         console.log("qualcosa: ", qualcosa );
+
+        const [giorno, mese, anno] = qualcosa.Data.split("/")
+        const data = dayjs(`${anno}-${mese}-${giorno}`);
+        qualcosa.Data=data.format("dddd D MMMM YYYY")
+        
         return qualcosa;
     }
 }

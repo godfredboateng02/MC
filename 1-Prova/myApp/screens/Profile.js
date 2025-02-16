@@ -195,7 +195,7 @@ export default function Profile() {
 
 
             <Text style={styles.ora}>
-                {lastOrderMenuTime ? lastOrderMenuTime.Data+" "+lastOrderMenuTime.Ora : 'Caricamento...'}
+                {lastOrderMenuTime ? lastOrderMenuTime.Data+", "+lastOrderMenuTime.Ora : 'Caricamento...'}
             </Text>
 
             <View style={styles.lastOrderContainer}>

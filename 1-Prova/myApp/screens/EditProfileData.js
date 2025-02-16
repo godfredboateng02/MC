@@ -51,7 +51,7 @@ export default function EditProfileData(){
         <View style={styles.container}>
             {/* HEADER ARANCIONE */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => navigate("Profile")} style={styles.backButton}>
                     <Text style={styles.backText}>←</Text>
                 </TouchableOpacity>
 
@@ -67,6 +67,7 @@ export default function EditProfileData(){
                     style={styles.input}
                     value={lastName}
                     onChangeText={setLastName}
+                    maxLength={15}
                     //placeholder='es. Rossi'
                 />
 
@@ -75,6 +76,7 @@ export default function EditProfileData(){
                     style={styles.input}
                     value={firstName}
                     onChangeText={setFirstName}
+                    maxLength={15}
                     //placeholder='es. Matteo'
                 />  
 

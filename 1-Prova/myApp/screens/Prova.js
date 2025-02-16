@@ -12,15 +12,7 @@ export default function Prova(){
 
 
 
-    /*const getDati = () => {
-        gestioneOrdini.effettuaOrdine(63).then(()=>{
-            console.log("ordine a buon fine")
-            gestioneOrdini.G
-        }).catch((error)=>{
-            console.log("errore: ",error);
-            
-        })
-    }*/
+    
 
     const [image, setImage] = useState()
 

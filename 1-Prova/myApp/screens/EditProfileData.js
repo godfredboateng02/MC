@@ -28,24 +28,8 @@ export default function EditProfileData(){
         })
     }
 
-    /*
-    TO-DO: (VIEW) posso usarla solamente dopo aver effettuato la chiamata di rete alla viewModel, per modificare i dati della carta
-    //nomeChiamata: updateUserCard({Titolare: " ", Numero:" ", Mese: " ", Anno: " ", Cvv:" "})
-    useEffect(()=>{
-        fetchData(41719).then((result)=>{
-            setLastName(result.lastName)
-            setFirstName(result.firstName)
-            setCardFullName(result.cardFullName)
-            setCardNumber(result.cardNumber)
-            setCardExpireMonth(result.cardExpireMonth)
-            setCardExpireYear(result.cardExpireYear)
-            setCardCVV(result.cardCVV)
-        }).then((error)=>{
-            console.log(error)
-        })
-    },[])
+   
 
-    */
 
     return (
         <View style={styles.container}>

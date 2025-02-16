@@ -8,13 +8,3 @@ export async function LoadLoader (){
     menus = CommunicationController.getMenus.then(menuList)
 }
 
-/*useEffect(() => {
-        setTextToShow('componente montato');
-        CommunicationController.getMenus().then((menuList) => {
-          setMenuList(menuList);
-          setTextToShow('dati caricati');
-        }).then(() => {
-          setTextToShow('dati caricati e visualizzati');
-        });
-    
-      }, []);*/

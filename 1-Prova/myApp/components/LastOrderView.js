@@ -3,14 +3,7 @@ import { Text, View, StyleSheet, Image} from 'react-native'
 import gestioneOrdini from '../viewmodel/gestioneOrdini';
 
 export default function LastOrderView(){
-    /*TO-DO: prendo tramite le  il lastOid e faccio una chiamata di rete 
-        Nome piatto
-        Descrizione breve
-        Prezzo
-        Immagine
-
-        Data di ordine: formattato in giorno n°giorno mese, ora
-    */
+    
 
     const [lastMenu, setLastMenu] = useState()
 

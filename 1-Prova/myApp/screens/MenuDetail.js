@@ -22,12 +22,7 @@ export default function MenuDetail() {
     const [buttonAction, setButtonAction] = useState() //funzione da eseguire
     const [shouldRenderAgain, setShouldRenderAgain] = useState(false);
 
-    //const [ordineInCorso, setOrdineInCorso] = useState(false);
-    //const [buttonAction, setButtonAction] = useState(null);
-    //const [buttonText, setButtonText] = useState("");
-    //const [isLoading, setIsLoading] = useState(true);
 
-    // 1 - Recupero i dettagli del menu e li inserisco in uno stato
     useEffect(() => {
         gestioneMenu.menuDetail(menuId).then((risposta) => {
             setMenuDetail(risposta)
@@ -74,81 +69,6 @@ export default function MenuDetail() {
         }
     },[Carta,ordineInCorso,shouldRenderAgain])
 
-    /* 2 - Recupero i dati utente e stato ordine per vedere se effettivamente posso fare l'ordine o no
-    Questo mi gestirà anche il cambio del bottone ovvero:
-        a. se i dati della carta non ci sono non posso effettuare ordini
-            - il bottone mi porta alla schermata di inserimento dei dati della carta
-        
-        b. se abbiamo un ordine in corso, non posso effettuare ordini
-            - il bottone mi porta nella schermata dell'ordine in corso
-
-        c. se è tutto ok effettuo l'ordine
-            - cliccando il bottone posso effettuare un ordine
-    */
-    /*useEffect(() => {
-        Promise.all([
-            gestioneAccount.getUserData(), //chiamata per prendere i dati della carta
-            gestioneOrdini.orderStatus() //chiamata per riprendere i dati della order status
-        ]).then(([datiUtente, statoOrdine]) => {
-            //console.log("Dati utente:", datiUtente);
-            setUserCard(datiUtente?.Carta); //Variabile di stato per la carta dell'utente
-            //console.log("Stato ordine:", statoOrdine);
-            setOrdineInCorso(statoOrdine?.Stato === "ON_DELIVERY"); //Variabile di stato per lo stato dell'ordine
-            setIsLoading(false);
-        }).catch((error) => {
-            console.log("Errore durante il recupero dei dati:", error);
-            setIsLoading(false);
-        });
-    }, []);*/
-
-    /* 3. Impostiamo dinamicamente il comportamento del pulsante solo dopo aver caricato tutto
-        Se non siamo più in carica e abbiamo il dettaglio del menu (ovvero è stato renderizzato tutto), mi assicuro di queste 3 cose:
-
-        a. se la carta dell'utente è null allora porto con un tasto di azione a inserire i dati della carta
-        b. se c'è un ordine in corso === true allora va nella pagina dell'ordine in corso
-        c. se non è verificata nessuna delle condizioni mostrami il pulsante per effettuare l'ordine
-
-        *i parametri finali indicano che se isLoading, userCard, ordineInCorso, menuDetail cambiano refresha la pagina
-    */
-
-    /*useEffect(() => {
-        if (!isLoading && menuDetail) {
-            if (!userCard) {
-                setButtonAction(() => vaiAllaCarta);
-                setButtonText("Inserisci carta per ordinare");
-            } else if (ordineInCorso) {
-                setButtonAction(() => vaiAllOrdineInCorso);
-                setButtonText("Ordine in corso - Visualizza stato");
-            } else {
-                setButtonAction(() => onBuy);
-                setButtonText(`Effettua ordine ${menuDetail?.Prezzo ?? ''}€`);
-            }
-        }
-    }, [isLoading, userCard, ordineInCorso, menuDetail]);*/
-
-    // Funzione per effettuare l'ordine. viene richiamata 
-    
-
-    
-
-    // Funzione per andare alla pagina di inserimento carta
-    /*const vaiAllaCarta = () => {
-        navigation.navigate("EditProfileCard");
-    };*/
-
-    // Funzione per gestire l'ordine in corso
-    /*const vaiAllOrdineInCorso = () => {
-        console.log("Vado alla pagina dell'ordine in corso");
-    };*/
-
-    // Controllo caricamento dati
-    /*if (!menuDetail || isLoading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <Text>Caricamento...</Text>
-            </View>
-        );
-    }*/
     const handleErrorConfirm = () => {
         console.log("Eseguo azione dopo l'errore...");
         // Esempio: Naviga a un'altra schermata

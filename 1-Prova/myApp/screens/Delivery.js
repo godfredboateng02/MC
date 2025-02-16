@@ -1,46 +1,4 @@
-/*import { Text, View, StyleSheet, TouchableOpacity} from 'react-native'
-import LastOrderView from '../components/LastOrderView'
-import { navigate } from '../NavigationService'
-import { useNavigation } from '@react-navigation/native';
 
-export default function Delivery(){
-
-    const navigation = useNavigation();
-
-    return(
-        <View style={styles.container}>
-
-            <TouchableOpacity onPress={() => navigate("Home")} style={styles.backButton}>
-                <Text style={styles.backText}>←</Text>
-            </TouchableOpacity>
-
-            <LastOrderView />
-        </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    backButton: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-        padding: 10,
-        borderRadius: 30,
-        //backgroundColor: 'rgba(255,255,255,0.2)',
-    },
-    backText: {
-        fontSize: 30,
-        color: "#fff",
-        fontWeight: "bold",
-    },
-
-})
-*/
 
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, Text,buttonText} from 'react-native';

@@ -11,131 +11,23 @@ import gestioneOrdini from '../viewmodel/gestioneOrdini';
 export default function Profile() {
     const navigation = useNavigation();
 
-    //TO-DO: questi dati devono essere ottenuti tramite una chiamata getUser alla viewmodel e poi passati alle componenti come props
-    //simula l'oggetto ricevuto dalla chiamata
-    /*const Dati = {
-        Nome: 'Mario',
-        Cognome: 'Rossi',
-        Carta: {
-            Numero: "6789",
-            Mese: "12",
-            Anno: "2024",
-            Titolare: "Mario Rossi"
-        }
-
-    }*/
-    //simula la chiamata
-    /*getUserData = () => {
-        return Dati
-    }*/
-
-    /*
-    N.B. specifica solamente per questa pagina non per altre
-    NomeChiamata: getUserData()
-    DALLA VIEW MODEL ASINCRONA -> 
-    Restituito un oggetto per la carta con
-        - Nome
-        - Cognome
-        - Carta{
-            Numero
-            Mese
-            Anno
-            Titolare
-        }
-    */
-
-    /*
-    NomeChiamata: LastOrderMenu()
-    DALLA VIEW MODEL ASINCRONA
-    restituisce un oggetto per lastOrder
-        - Nome del piatto
-        - Descrizione breve
-        - Prezzo
-        - Immagine
-
-    se l'ultimo ordine esisteva "NOT_AVAILABLE" -> "menu non disponibile"
-    se l'ultimo non esiste "NULL" -> "nessun ordine recente"
-    */
-
-    /*
-    NomeChiamata: LastOrderTime()
-    DALLA VIEWMODEL ASINCRONA
-    restituisce un oggetto con ora e data, 
-        - Data formattato in giorno n°giorno mese
-        - Ora formato HH/MM
-    */
-
-    //TO-DO: manca il costrutto di selezione che se vede che la carta non è caricata scrive nessuna carta inserita
-    /*
-        L'oggetto carta sarà null e quindi terrò la schermata vuota
-    */
-
+  
     //TO-DO: RIMUOVI ASSOLUTAMENTE QUESTE 2 RIGHEEEEEEE!
     Storage.getSid().then((risu)=>{console.log(risu)})
     Storage.getUid().then((risu)=>{console.log(risu)})
 
     const [datiUtente, setDatiUtente] = useState(null)
 
-    /*gestioneAccount.updateUserName({Cognome: "Rossi", Nome: "Matteo"}).then(()=>{
-        console.log("inserimento dati")
-    }).catch((error)=>{
-        console.log("errore",error)
-    })*/
-    //----> DA USARE QUANDO TUTTO FUNZIONA
-
-    
-    
-    //simulazione della useEffect e chiamata per dati utente e carta
-    
-
+ 
 
 
     //---------------------- SIMULAZIONE CHIAMATA PER DATI ULTIMO ORDINE -------------------------------
     const [lastMenu, setLastMenu] = useState()
 
-    //Simulazione dei dati ricevuti dalla rete
-    /*const lastOrder = {
-        Nome: 'Pasta al Pesto',
-        Descrizione: "Un piatto molto esotico da terre lontane genovesi",
-        Prezzo: '12,99€',
-        Immagine: "../assets/piatto.png"
-    }*/
-
-
-    
-    //Simulazione della funzione per prendere i dati dell'ultimo menu
-    /*lastOrderMenu = () => {
-        return lastOrder
-    }*/
-
-    //---------------------------------------------------------------------------------------------------
-
-
     //---------------------- SIMULAZIONE CHIAMATA PER DATA E ORA ULTIMO ORDINE -------------------------------
     const [lastOrderMenuTime, setLastOrderMenuTime] = useState("tempo")
 
-    //Simulazione dei dati ricevuti dalla rete
-    /*const dataTempo = {
-        risposta: "Lunedì 25 maggio 2024, 16:30" 
-    }
-
-    //Simulazione della funzione per prendere i dati dell'orario dell'ultimo ordine
-    const lastOrderTime = () => {
-        return dataTempo
-    }*/
-
-
-    //---------------------------------------------------------------------------------------------------
-
-    /*useEffect(()=>{
-        let d = getUserData()
-        setDatiUtente(d)
-        let m = lastOrderMenu()
-        setLastMenu(m) //se metti questo a null e lastOrderMenuTime vedi cosa fa
-        let t = lastOrderTime()
-        setLastOrderMenuTime(t)
-    },[])*/
-
+   
     useEffect(()=>{
         gestioneAccount.getUserData().then((datiUtente)=>{
             setDatiUtente(datiUtente)

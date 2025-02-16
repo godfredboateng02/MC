@@ -85,7 +85,6 @@ export default class gestioneOrdini{
         if (raw.status === "ON_DELIVERY"){
             risposta.Tempo = formattazione.tempoRimanente(raw.expectedDeliveryTimestamp);
         }else{
-            await storage.setConsegna(false)
             risposta.Tempo = null;
             risposta.Consegna = formattazione.extractTime(raw.deliveryTimestamp);
         }

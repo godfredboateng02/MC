@@ -120,7 +120,7 @@ export default function Delivery() {
     }, [stato, finito]);
 
 
-    if (drone!=undefined){
+    if (drone!=undefined, partenza != undefined, destinazione != undefined){
         console.log("posizione2",partenza,destinazione,drone)
         return(
             <View style={styles.container}>
@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(255, 255, 255)',
         bottom: 0,
         paddingTop: 10,
-        paddingBottom: 20
+        paddingBottom: 80
+        
         /*shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: "center",
         justifyContent: 'center',
-        marginTop: 10,
+        //marginTop: 10,
     },
     confirmText: {
         fontSize: 20,

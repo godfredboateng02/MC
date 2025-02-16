@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { navigate } from '../NavigationService';
 import { useNavigation } from '@react-navigation/native';
 import gestioneOrdini from '../viewmodel/gestioneOrdini';
@@ -14,7 +14,12 @@ export default function DeliveryElement() {
             onPress={() => gestioneOrdini.orderStatus().then((risultato)=>navigate("Delivery",{risultato: risultato}))}
             activeOpacity={0.7}
         >
-            <Text style={styles.text}>🚚</Text>
+            {/*<Text style={styles.text}>🚚</Text>*/}
+            <Image 
+                source={require('../assets/DroneLogo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+            />
         </TouchableOpacity>
     );
 }
@@ -37,5 +42,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 30,
         textAlign: 'center',
+    },
+    logo: {
+        flex: 1
     }
 });
